@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Variante de 01-principal-clara con la firma CE-EPIS retirada. -->
+<svg xmlns="http://www.w3.org/2000/svg" width="256pt" height="256pt" viewBox="0 0 256 256" role="img" aria-label="Comité Electoral de la EPIS">
+  <path fill-rule="evenodd" fill="#FFFFFF" d="M58 244H198C223.429688 244 244 223.429688 244 198V58C244 32.570312 223.429688 12 198 12H58C32.570312 12 12 32.570312 12 58V198C12 223.429688 32.570312 244 58 244Z"/>
+  <path fill="none" stroke="#101F36" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" d="M96 146H80C70 146 66 140 66 131V82C66 73 71 68 81 68H175C185 68 190 73 190 82V131C190 140 186 146 176 146H160" transform="matrix(1 0 0 -1 0 256)"/>
+  <path fill="none" stroke="#101F36" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" d="M100 136H156" transform="matrix(1 0 0 -1 0 256)"/>
+  <path fill="none" stroke="#C6A24B" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" d="M108 148H148C152.421875 148 156 151.578125 156 156V204C156 208.421875 152.421875 212 148 212H108C103.578125 212 100 208.421875 100 204V156C100 151.578125 103.578125 148 108 148Z" transform="matrix(1 0 0 -1 0 256)"/>
+  <path fill="none" stroke="#C6A24B" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" d="M112 180L124 168L144 191" transform="matrix(1 0 0 -1 0 256)"/>
+  <path fill="none" stroke="#101F36" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" d="M104 91L128 113L152 91" transform="matrix(1 0 0 -1 0 256)"/>
+  <circle cx="104" cy="165" r="5.5" fill="#101F36"/>
+  <circle cx="128" cy="143" r="5.5" fill="#101F36"/>
+  <circle cx="152" cy="165" r="5.5" fill="#101F36"/>
+</svg>
