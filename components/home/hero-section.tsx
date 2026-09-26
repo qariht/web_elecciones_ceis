@@ -173,7 +173,7 @@ export function HeroSection() {
             <span className="text-[#DCE2EA] hidden sm:inline">•</span>
             <div className="flex items-center gap-1.5 font-medium text-[#101F36]">
               <span className="size-2 rounded-full bg-[#C6A24B] ring-2 ring-[#FAEEC6]" />
-              <span>Padrón oficial habilitado</span>
+              <span>Inscripciones habilitadas</span>
             </div>
             <span className="text-[#DCE2EA] hidden sm:inline">•</span>
             <div className="flex items-center gap-1.5 font-medium text-[#101F36]">

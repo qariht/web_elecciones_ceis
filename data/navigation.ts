@@ -2,6 +2,7 @@ import {
   Calendar,
   DownloadCloud,
   Megaphone,
+  UploadCloud,
 } from "lucide-react"
 
 import type { NavDropdownItem, FooterLink } from "./types"
@@ -22,6 +23,12 @@ export const NAV_PROCESO_ITEMS: NavDropdownItem[] = [
     icon: DownloadCloud,
     title: "Kit Electoral y Bases",
     description: "Descarga el reglamento, padrón y formatos jurados.",
+  },
+  {
+    href: "/inscripcion",
+    icon: UploadCloud,
+    title: "Inscripción de listas",
+    description: "Registra tu lista de candidatos y adjunta sus requisitos.",
   },
 ]
 

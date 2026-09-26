@@ -42,9 +42,9 @@ export const metadata: Metadata = {
       "Portal oficial del Comité Electoral EPIS: cronograma, inscripción de listas, comunicados oficiales y kit electoral.",
     images: [
       {
-        url: "/og-elecciones-ceis-2027.png",
-        width: 1200,
-        height: 630,
+        url: "/og-elecciones-ceis-2027-compartir.png",
+        width: 2400,
+        height: 800,
         alt: "Elecciones CEIS 2027",
       },
     ],
@@ -54,7 +54,7 @@ export const metadata: Metadata = {
     title: "Elecciones CEIS 2027",
     description:
       "Portal oficial del Comité Electoral EPIS: cronograma, inscripción de listas, comunicados oficiales y kit electoral.",
-    images: ["/og-elecciones-ceis-2027.png"],
+    images: ["/og-elecciones-ceis-2027-compartir.png"],
   },
 };
 
