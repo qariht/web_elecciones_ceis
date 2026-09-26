@@ -1340,7 +1340,6 @@ export default function InscripcionPage() {
     const id = String(nextId.current++)
     setMembers((prev) => [...prev, createMember(id, prev.length)])
     setOpenIds((prev) => [...prev, id])
-    scrollToMember(id)
   }
 
   const removeMember = (id: string) => {
@@ -1475,6 +1474,16 @@ export default function InscripcionPage() {
             description="Completa los datos de la lista, adjunta su logotipo y registra a los candidatos y al Personero General con sus requisitos individuales en formato PDF."
             withBorder
           />
+
+          <div
+            role="status"
+            className="flex items-start gap-3 rounded-xl border border-[var(--brand-gold)]/35 bg-[var(--brand-gold)]/10 px-4 py-3 text-sm text-[var(--brand-navy)]"
+          >
+            <Info className="mt-0.5 size-4 shrink-0 text-[var(--brand-gold)]" aria-hidden />
+            <p>
+              Te recomendamos hacer el proceso de <strong>inscripción</strong> de tu lista en el navegador <strong>Chrome</strong>.
+            </p>
+          </div>
 
           <AnimatePresence mode="wait">
             {isSuccess && receivedAt ? (
@@ -1641,6 +1650,25 @@ export default function InscripcionPage() {
                       </div>
 
                       <div className="space-y-3">
+                        <AnimatePresence initial={false}>
+                          {[...members].reverse().map((member, reversedIndex) => {
+                            const index = members.length - reversedIndex - 1
+                            return (
+                              <MemberCard
+                                key={member.id}
+                                member={member}
+                                index={index}
+                                open={openIds.includes(member.id)}
+                                canRemove={members.length > 1}
+                                errors={errors}
+                                onToggle={toggleMember}
+                                onRemove={removeMember}
+                                onText={updateMemberText}
+                                onFile={updateMemberFile}
+                              />
+                            )
+                          })}
+                        </AnimatePresence>
                         <MemberCard
                           member={personero}
                           index={0}
@@ -1655,22 +1683,6 @@ export default function InscripcionPage() {
                           onText={(_, field, value) => updatePersoneroText(field, value)}
                           onFile={(_, doc, file) => updatePersoneroFile(doc, file)}
                         />
-                        <AnimatePresence initial={false}>
-                          {members.map((member, index) => (
-                            <MemberCard
-                              key={member.id}
-                              member={member}
-                              index={index}
-                              open={openIds.includes(member.id)}
-                              canRemove={members.length > 1}
-                              errors={errors}
-                              onToggle={toggleMember}
-                              onRemove={removeMember}
-                              onText={updateMemberText}
-                              onFile={updateMemberFile}
-                            />
-                          ))}
-                        </AnimatePresence>
                       </div>
                     </section>
 
