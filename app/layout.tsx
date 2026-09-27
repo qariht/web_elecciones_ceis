@@ -26,7 +26,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://ce-epis-system-web.vercel.app"),
+  metadataBase: new URL("https://eleccionesceis.vercel.app"),
   title: {
     template: "%s | Comité Electoral EPIS",
     default: "Elecciones CEIS 2027 | Comité Electoral EPIS",

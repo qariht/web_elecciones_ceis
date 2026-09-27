@@ -189,15 +189,11 @@ export function Footer() {
               </li>
             </ul>
 
-            {/* Agradecimiento a la gestión */}
+            {/* Referencia institucional */}
             <div className="mt-4 w-full max-w-md rounded-xl bg-white/5 p-3.5 border border-white/10 flex flex-col sm:flex-row items-center md:items-start gap-3 text-center sm:text-left mx-auto md:mx-0">
               <Sparkles className="size-4 text-[#C6A24B] shrink-0 mt-0.5" />
               <p className="text-xs text-white/85 leading-relaxed">
-                Plataforma institucional implementada{" "}
-                <span className="font-semibold text-[#FAEEC6]">
-                  gracias a la gestión de Qarith Leandro
-                </span>
-                , en favor de la transparencia y la participación democrática estudiantil.
+                Realizado en la gestión del Comité Electoral de la EPIS - 2026
               </p>
             </div>
           </motion.div>

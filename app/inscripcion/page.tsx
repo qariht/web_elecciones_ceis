@@ -1231,7 +1231,6 @@ export default function InscripcionPage() {
   const [submitError, setSubmitError] = useState<string | null>(null)
   const [isSuccess, setIsSuccess] = useState(false)
   const [receivedAt, setReceivedAt] = useState<Date | null>(null)
-  const [showBrowserAlert, setShowBrowserAlert] = useState(true)
 
   const nextId = useRef(2)
 
@@ -1249,11 +1248,6 @@ export default function InscripcionPage() {
     mouseX.set(el.getBoundingClientRect().width / 2)
     mouseY.set(240)
   }, [mouseX, mouseY])
-
-  useEffect(() => {
-    const timer = window.setTimeout(() => setShowBrowserAlert(false), 8000)
-    return () => window.clearTimeout(timer)
-  }, [])
 
   function handleMouseMove(e: MouseEvent<HTMLDivElement>) {
     if (reduceMotion || !wrapperRef.current) return
@@ -1481,24 +1475,19 @@ export default function InscripcionPage() {
             withBorder
           />
 
-          <AnimatePresence initial={false}>
-            {showBrowserAlert && (
-              <motion.div
-                role="alert"
-                aria-atomic="true"
-                initial={{ opacity: 0, y: -8, filter: "blur(4px)" }}
-                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                exit={{ opacity: 0, y: -8, filter: "blur(5px)" }}
-                transition={{ duration: 0.55, ease: EASE }}
-                className="flex items-start gap-3 overflow-hidden rounded-xl border border-[var(--brand-gold)]/45 bg-[var(--brand-gold)]/10 px-4 py-3 text-sm text-[var(--brand-navy)] shadow-sm"
-              >
-                <Info className="mt-0.5 size-4 shrink-0 text-[var(--brand-gold)]" aria-hidden />
-                <p>
-                  Te recomendamos hacer el proceso de <strong>inscripción</strong> de tu lista en el navegador <strong>Chrome</strong>.
-                </p>
-              </motion.div>
-            )}
-          </AnimatePresence>
+          <motion.div
+            role="alert"
+            aria-atomic="true"
+            initial={{ opacity: 0, y: -8, filter: "blur(4px)" }}
+            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            transition={{ duration: 0.55, ease: EASE }}
+            className="flex items-start gap-3 overflow-hidden rounded-xl border border-[var(--brand-gold)]/45 bg-[var(--brand-gold)]/10 px-4 py-3 text-sm text-[var(--brand-navy)] shadow-sm"
+          >
+            <Info className="mt-0.5 size-4 shrink-0 text-[var(--brand-gold)]" aria-hidden />
+            <p>
+              Te recomendamos hacer el proceso de <strong>inscripción</strong> de tu lista en el navegador <strong>Chrome</strong>.
+            </p>
+          </motion.div>
 
           <AnimatePresence mode="wait">
             {isSuccess && receivedAt ? (
