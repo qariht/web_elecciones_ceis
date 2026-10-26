@@ -1,6 +1,6 @@
 import {
   CalendarDays,
-  FileCheck,
+  ListChecks,
   Megaphone,
   ShieldCheck,
   CheckCircle2,
@@ -14,10 +14,10 @@ import type { FeatureItem, GuaranteeItem, FaseActiva, HeroMetric } from "./types
 /* -------------------------------------------------------------------------- */
 
 export const FASE_ACTIVA: FaseActiva = {
-  fase: "Fase 02",
-  titulo: "Inscripción de listas",
-  vencimiento: "Del miércoles 23 de septiembre al viernes 16 de octubre de 2026",
-  href: "/cronograma",
+  fase: "Etapa III",
+  titulo: "Publicación de lista preliminar",
+  vencimiento: "Lunes 26 de octubre de 2026",
+  href: "/lista-preliminar",
 }
 
 /* -------------------------------------------------------------------------- */
@@ -34,12 +34,12 @@ export const FEATURES: FeatureItem[] = [
     icon: CalendarDays,
   },
   {
-    title: "Kit y Reglamentos",
+    title: "Lista Preliminar",
     description:
-      "Formatos oficiales de inscripción, modelos de plan de trabajo y padrón de sufragio.",
-    href: "/kit-electoral",
-    cta: "Descargar formatos",
-    icon: FileCheck,
+      "Consulta la lista preliminar presentada para el proceso CEIS 2027.",
+    href: "/lista-preliminar",
+    cta: "Ver lista preliminar",
+    icon: ListChecks,
   },
   {
     title: "Comunicados Oficiales",
@@ -67,7 +67,7 @@ export const GUARANTEES: GuaranteeItem[] = [
     description: "Documentos verificables foliados por el Comité.",
   },
   {
-    icon: FileCheck,
+    icon: ListChecks,
     label: "Normatividad",
     description: "Conforme al estatuto y reglamento electoral.",
   },
@@ -85,12 +85,12 @@ export const GUARANTEES: GuaranteeItem[] = [
 export const HERO_METRICS: HeroMetric[] = [
   {
     icon: CalendarDays,
-    label: "Inscripciones abiertas",
-    value: "Cronograma 2027",
+    label: "Etapa actual",
+    value: "Lista preliminar",
   },
   {
     label: "Fase actual",
-    value: "Recepción de Tachas y Listas",
+    value: "Publicación preliminar",
     pulse: true,
   },
 ]

@@ -1,0 +1,165 @@
+.headingEnter {
+  animation: headingReveal 4000ms cubic-bezier(0.45, 0.05, 0.55, 0.95) 120ms both;
+}
+
+.gradientWords {
+  background-image: linear-gradient(105deg, #9a762e 0%, #c6a24b 38%, #314b70 78%, #101f36 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+.buttonEnter {
+  animation: buttonAppear 4000ms ease-out both;
+}
+
+.timerEnter {
+  animation: timerAppear 5000ms ease-out both;
+}
+
+.timeCard {
+  --card-height: clamp(88px, 22vw, 112px);
+  position: relative;
+  width: clamp(78px, 20vw, 108px);
+  height: var(--card-height);
+  border: 1px solid #dce2ea;
+  border-radius: 12px;
+  background: #f4f6f9;
+  box-shadow: 0 9px 18px rgba(16, 31, 54, 0.12), 0 2px 3px rgba(16, 31, 54, 0.1);
+  color: #101f36;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: clamp(2.8rem, 9vw, 4rem);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  perspective: 650px;
+}
+
+.timeCard::after {
+  position: absolute;
+  z-index: 5;
+  inset: calc(50% - 1px) 0 auto;
+  height: 2px;
+  background: #d0d6de;
+  box-shadow: 0 1px 2px rgba(16, 31, 54, 0.12);
+  content: "";
+}
+
+.flipHalf {
+  position: absolute;
+  right: 0;
+  left: 0;
+  height: 50%;
+  overflow: hidden;
+  backface-visibility: hidden;
+}
+
+.flipHalf span {
+  position: absolute;
+  right: 0;
+  left: 0;
+  display: grid;
+  place-items: center;
+  height: var(--card-height);
+}
+
+.flipTop {
+  top: 0;
+  border-radius: 11px 11px 0 0;
+  background: #fff;
+  transform-origin: center bottom;
+}
+
+.flipTop span {
+  top: 0;
+}
+
+.flipBottom {
+  bottom: 0;
+  border-radius: 0 0 11px 11px;
+  background: #f4f6f9;
+  transform-origin: center top;
+}
+
+.flipBottom span {
+  top: calc(var(--card-height) / -2);
+}
+
+.flipTopAnimate {
+  z-index: 3;
+  animation: flipTop 280ms ease-in both;
+}
+
+.flipBottomAnimate {
+  z-index: 2;
+  animation: flipBottom 280ms ease-out 280ms both;
+}
+
+@keyframes headingReveal {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+    clip-path: inset(100% 0 0 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    clip-path: inset(0);
+  }
+}
+
+@keyframes flipTop {
+  from {
+    transform: rotateX(0);
+  }
+
+  to {
+    transform: rotateX(-90deg);
+  }
+}
+
+@keyframes flipBottom {
+  from {
+    transform: rotateX(90deg);
+  }
+
+  to {
+    transform: rotateX(0);
+  }
+}
+
+@keyframes buttonAppear {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes timerAppear {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .headingEnter,
+  .buttonEnter,
+  .timerEnter,
+  .flipTopAnimate,
+  .flipBottomAnimate {
+    animation: none;
+  }
+
+  .flipTopAnimate {
+    display: none;
+  }
+}

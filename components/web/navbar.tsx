@@ -6,7 +6,7 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
 import {
-  UploadCloud,
+  ListChecks,
   Megaphone,
   Menu,
   X,
@@ -27,16 +27,15 @@ import {
 } from "@/components/ui/navigation-menu"
 import { buttonVariants } from "@/components/ui/button"
 import { NAV_PROCESO_ITEMS } from "@/data/navigation"
+import { useListaPublicada } from "@/lib/use-lista-publicada"
 import { cn } from "@/lib/utils"
 
 export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false)
   const [procesoOpen, setProcesoOpen] = useState(true)
   const pathname = usePathname()
-
-  useEffect(() => {
-    setMobileOpen(false)
-  }, [pathname])
+  const listaPublicada = useListaPublicada()
+  const procesoItems = NAV_PROCESO_ITEMS.filter((item) => listaPublicada || item.href !== "/lista-preliminar")
 
   useEffect(() => {
     if (mobileOpen) {
@@ -111,7 +110,7 @@ export function Navbar() {
                   {/* Se retiraron los bordes duplicados y sombras conflictivas */}
                   <NavigationMenuContent className="w-[380px] sm:w-[410px] p-2 bg-white">
                     <div className="flex flex-col gap-1">
-                      {NAV_PROCESO_ITEMS.map((item) => {
+                      {procesoItems.map((item) => {
                         const Icon = item.icon
                         return (
                           <Link
@@ -157,16 +156,18 @@ export function Navbar() {
 
           {/* ACCIONES Y BOTÓN HAMBURGUESA */}
           <div className="flex items-center gap-3">
-            <Link
-              href="/inscripcion"
-              className={cn(
-                buttonVariants({ size: "sm" }),
-                "hidden sm:inline-flex bg-[#101F36] hover:bg-[#182c4d] text-white font-medium shadow-sm transition-transform active:scale-95 gap-2"
-              )}
-            >
-              <UploadCloud className="size-4 text-[#C6A24B]" />
-              <span>Inscribir Lista</span>
-            </Link>
+            {listaPublicada && (
+              <Link
+                href="/lista-preliminar"
+                className={cn(
+                  buttonVariants({ size: "sm" }),
+                  "hidden sm:inline-flex bg-[#101F36] hover:bg-[#182c4d] text-white font-medium shadow-sm transition-transform active:scale-95 gap-2"
+                )}
+              >
+                <ListChecks className="size-4 text-[#C6A24B]" />
+                <span>Lista preliminar</span>
+              </Link>
+            )}
 
             {/* Disparador Menú Móvil */}
             <button
@@ -244,6 +245,7 @@ export function Navbar() {
                 {/* Inicio */}
                 <Link
                   href="/"
+                  onClick={() => setMobileOpen(false)}
                   className={cn(
                     "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-semibold transition-colors",
                     pathname === "/"
@@ -283,7 +285,7 @@ export function Navbar() {
                         transition={{ duration: 0.2 }}
                         className="space-y-1 pl-1"
                       >
-                        {NAV_PROCESO_ITEMS.map((item) => {
+                        {procesoItems.map((item) => {
                           const Icon = item.icon
                           const isActive = pathname === item.href
 
@@ -291,6 +293,7 @@ export function Navbar() {
                             <Link
                               key={item.href}
                               href={item.href}
+                              onClick={() => setMobileOpen(false)}
                               className={cn(
                                 "flex items-center justify-between p-2.5 rounded-lg text-xs font-medium transition-colors",
                                 isActive
@@ -314,6 +317,7 @@ export function Navbar() {
                 {/* Comunicados */}
                 <Link
                   href="/comunicados"
+                  onClick={() => setMobileOpen(false)}
                   className={cn(
                     "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-semibold transition-colors",
                     pathname === "/comunicados"
@@ -329,16 +333,19 @@ export function Navbar() {
 
               {/* Footer Drawer con CTA */}
               <div className="border-t border-[#DCE2EA] p-4 bg-[#F5F7FA] space-y-3">
-                <Link
-                  href="/inscripcion"
-                  className={cn(
-                    buttonVariants(),
-                    "w-full bg-[#101F36] hover:bg-[#182c4d] text-white font-semibold justify-center gap-2 h-11 shadow-sm"
-                  )}
-                >
-                  <UploadCloud className="size-4 text-[#C6A24B]" />
-                  <span>Inscribir Lista de Candidatos</span>
-                </Link>
+                {listaPublicada && (
+                  <Link
+                    href="/lista-preliminar"
+                    onClick={() => setMobileOpen(false)}
+                    className={cn(
+                      buttonVariants(),
+                      "w-full bg-[#101F36] hover:bg-[#182c4d] text-white font-semibold justify-center gap-2 h-11 shadow-sm"
+                    )}
+                  >
+                    <ListChecks className="size-4 text-[#C6A24B]" />
+                    <span>Ver lista preliminar</span>
+                  </Link>
+                )}
 
                 <div className="flex items-center justify-center gap-1.5 text-[11px] text-[#566275] font-mono">
                   <ShieldCheck className="size-3.5 text-[#C6A24B]" />

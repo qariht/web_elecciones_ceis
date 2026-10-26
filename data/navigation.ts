@@ -1,8 +1,6 @@
 import {
   Calendar,
-  DownloadCloud,
-  Megaphone,
-  UploadCloud,
+  ListChecks,
 } from "lucide-react"
 
 import type { NavDropdownItem, FooterLink } from "./types"
@@ -13,22 +11,16 @@ import type { NavDropdownItem, FooterLink } from "./types"
 
 export const NAV_PROCESO_ITEMS: NavDropdownItem[] = [
   {
+    href: "/lista-preliminar",
+    icon: ListChecks,
+    title: "Lista preliminar",
+    description: "Conoce la lista publicada para el proceso CEIS 2027.",
+  },
+  {
     href: "/cronograma",
     icon: Calendar,
     title: "Cronograma Oficial",
     description: "Fechas de convocatoria, tachas, debate y sufragio.",
-  },
-  {
-    href: "/kit-electoral",
-    icon: DownloadCloud,
-    title: "Kit Electoral y Bases",
-    description: "Descarga el reglamento, padrón y formatos jurados.",
-  },
-  {
-    href: "/inscripcion",
-    icon: UploadCloud,
-    title: "Inscripción de listas",
-    description: "Registra tu lista de candidatos y adjunta sus requisitos.",
   },
 ]
 
@@ -37,8 +29,7 @@ export const NAV_PROCESO_ITEMS: NavDropdownItem[] = [
 /* -------------------------------------------------------------------------- */
 
 export const FOOTER_LINKS: FooterLink[] = [
+  { href: "/lista-preliminar", label: "Lista preliminar" },
   { href: "/cronograma", label: "Cronograma" },
-  { href: "/kit-electoral", label: "Bases y Formatos" },
   { href: "/comunicados", label: "Resoluciones" },
-  { href: "/inscripcion", label: "Mesa de Partes" },
 ]

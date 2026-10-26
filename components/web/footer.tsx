@@ -10,14 +10,14 @@ import {
   Clock,
   ShieldCheck,
   CalendarDays,
-  FolderArchive,
+  ListChecks,
   Megaphone,
-  UploadCloud,
   Code2,
   Sparkles,
 } from "lucide-react"
 
 import { FOOTER_LINKS } from "@/data/navigation"
+import { useListaPublicada } from "@/lib/use-lista-publicada"
 
 const containerVariants = {
   hidden: { opacity: 0, y: 24 },
@@ -42,6 +42,7 @@ const itemVariants = {
 
 export function Footer() {
   const currentYear = new Date().getFullYear()
+  const listaPublicada = useListaPublicada()
 
   return (
     <footer className="border-t border-[#DCE2EA] bg-[#101F36] text-white overflow-hidden">
@@ -119,15 +120,17 @@ export function Footer() {
                   <span>Cronograma Oficial</span>
                 </Link>
               </li>
-              <li>
-                <Link
-                  href="/kit-electoral"
-                  className="inline-flex items-center gap-2 text-white/80 hover:text-[#C6A24B] transition-colors"
-                >
-                  <FolderArchive className="size-3.5 text-[#C6A24B]" />
-                  <span>Kit y Formatos de Postulación</span>
-                </Link>
-              </li>
+              {listaPublicada && (
+                <li>
+                  <Link
+                    href="/lista-preliminar"
+                    className="inline-flex items-center gap-2 text-white/80 hover:text-[#C6A24B] transition-colors"
+                  >
+                    <ListChecks className="size-3.5 text-[#C6A24B]" />
+                    <span>Lista Preliminar</span>
+                  </Link>
+                </li>
+              )}
               <li>
                 <Link
                   href="/comunicados"
@@ -135,15 +138,6 @@ export function Footer() {
                 >
                   <Megaphone className="size-3.5 text-[#C6A24B]" />
                   <span>Resoluciones y Comunicados</span>
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/inscripcion"
-                  className="inline-flex items-center gap-2 text-white/80 hover:text-[#C6A24B] transition-colors"
-                >
-                  <UploadCloud className="size-3.5 text-[#C6A24B]" />
-                  <span>Mesa de Partes Virtual</span>
                 </Link>
               </li>
             </ul>
@@ -155,7 +149,7 @@ export function Footer() {
             className="lg:col-span-5 flex flex-col items-center md:items-start text-center md:text-left space-y-3"
           >
             <h3 className="text-xs font-bold uppercase tracking-wider text-[#C6A24B]">
-              Mesa de Partes y Atención Oficial
+              Atención Oficial
             </h3>
 
             <ul className="space-y-3 text-xs sm:text-sm text-white/80 flex flex-col items-center md:items-start max-w-md mx-auto md:mx-0">
@@ -217,7 +211,7 @@ export function Footer() {
           {/* Enlaces de soporte */}
           {FOOTER_LINKS && FOOTER_LINKS.length > 0 && (
             <div className="flex flex-wrap justify-center gap-4 text-xs">
-              {FOOTER_LINKS.map((link) => (
+              {FOOTER_LINKS.filter((link) => listaPublicada || link.href !== "/lista-preliminar").map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}

@@ -32,14 +32,14 @@ export const metadata: Metadata = {
     default: "Elecciones CEIS 2027 | Comité Electoral EPIS",
   },
   description:
-    "Portal oficial del Comité Electoral EPIS: Cronograma, inscripción de listas, comunicados oficiales y kit electoral.",
+    "Portal oficial del Comité Electoral EPIS: lista preliminar, cronograma y comunicados de las Elecciones CEIS 2027.",
   icons: {
     icon: "/icon.svg",
   },
   openGraph: {
     title: "Elecciones CEIS 2027",
     description:
-      "Portal oficial del Comité Electoral EPIS: cronograma, inscripción de listas, comunicados oficiales y kit electoral.",
+      "Portal oficial del Comité Electoral EPIS: lista preliminar, cronograma y comunicados de las Elecciones CEIS 2027.",
     images: [
       {
         url: "/og-elecciones-ceis-2027-compartir.png",
@@ -53,7 +53,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Elecciones CEIS 2027",
     description:
-      "Portal oficial del Comité Electoral EPIS: cronograma, inscripción de listas, comunicados oficiales y kit electoral.",
+      "Portal oficial del Comité Electoral EPIS: lista preliminar, cronograma y comunicados de las Elecciones CEIS 2027.",
     images: ["/og-elecciones-ceis-2027-compartir.png"],
   },
 };
