@@ -8,14 +8,11 @@ import {
   Megaphone,
   ShieldCheck,
   Tag,
-  ArrowDownToLine,
   ScrollText,
   BellRing,
-  Info,
 } from "lucide-react"
 
 import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
 import {
   Card,
   CardContent,
@@ -49,6 +46,16 @@ interface Publicacion {
 }
 
 const PUBLICACIONES: Publicacion[] = [
+  {
+    id: "modificacion-cronograma-28-oct",
+    tipo: "Comunicado",
+    numero: "CRONOGRAMA ACTUALIZADO · 28 OCT.",
+    fecha: "28 de octubre de 2026",
+    titulo: "Modificación del cronograma electoral",
+    resumen:
+      "El Comité Electoral modifica los plazos de evaluación de listas: las impugnaciones y tachas se presentan el 27 y 28 de octubre; la subsanación y absolución de observaciones, tachas e impugnaciones será el 29 de octubre; y las listas aptas se publicarán el viernes 30 de octubre. La campaña electoral podrá comenzar el sábado 31 de octubre. La fecha del acto de sufragio será reevaluada y se comunicará por los canales oficiales.",
+    archivoUrl: "/documentos/comunicado-modificacion-cronograma-electoral-28-oct-2026.pdf",
+  },
   {
     id: "1",
     tipo: "Comunicado",
@@ -155,24 +162,18 @@ export default function ComunicadosPage() {
                     {item.archivoUrl && (
                       <div className="pt-2 border-t border-[var(--border)]/70 flex items-center justify-between">
                         <span className="text-xs font-mono text-[var(--muted-foreground)] hidden sm:inline">
-                          Formato digital con firma y sello oficial
+                          Documento oficial en PDF
                         </span>
 
-                        <Button
-
-                          variant="outline"
-                          size="sm"
-                          className="border-[var(--border)] text-[var(--brand-navy)] hover:bg-[var(--secondary)] hover:border-[var(--brand-navy)] font-medium gap-2 transition-colors w-full sm:w-auto"
+                        <a
+                          href={item.archivoUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex min-h-9 w-full items-center justify-center gap-2 rounded-md border border-[var(--border)] px-3 text-sm font-medium text-[var(--brand-navy)] transition-colors hover:border-[var(--brand-navy)] hover:bg-[var(--secondary)] sm:w-auto"
                         >
-                          <a
-                            href={item.archivoUrl}
-                            download
-                            className="flex items-center justify-center gap-2"
-                          >
-                            <ArrowDownToLine className="size-3.5 text-[var(--brand-gold)] stroke-[2.5]" />
-                            <span>Descargar Documento Oficial (PDF)</span>
-                          </a>
-                        </Button>
+                          <FileText className="size-3.5 text-[var(--brand-gold)]" />
+                          <span>Ver comunicado oficial (PDF)</span>
+                        </a>
                       </div>
                     )}
                   </CardContent>

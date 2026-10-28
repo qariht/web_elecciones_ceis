@@ -16,7 +16,7 @@ export function HeroSection({ initialRemainingSeconds }: { initialRemainingSecon
 
       <div className="relative z-10 flex max-w-4xl flex-col items-center">
         <h1 className={`${styles.headingEnter} font-heading text-4xl font-bold leading-tight tracking-tight text-[#101F36] text-balance sm:text-6xl lg:text-7xl`}>
-          Publicación de <span className={styles.gradientWords}>lista preliminar</span>
+          Una decisión, <span className={styles.gradientWords}>una comunidad.</span>
         </h1>
         <ReleaseAction initialRemainingSeconds={initialRemainingSeconds} />
       </div>

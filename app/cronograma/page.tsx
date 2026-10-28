@@ -3,14 +3,11 @@
 import { MouseEvent, useMemo, useRef, type CSSProperties } from "react"
 import { motion, MotionConfig, useMotionValue, useReducedMotion, useSpring } from "framer-motion"
 import {
-  AlertCircle,
   CalendarDays,
   Check,
   Clock,
   Hourglass,
   ShieldCheck,
-  ChevronRight,
-  Milestone,
   AlertCircleIcon,
   MapPin,
 } from "lucide-react"
@@ -25,7 +22,7 @@ import {
 } from "@/components/ui/card"
 import { cn } from "@/lib/utils"
 import { ETAPAS_ELECTORALES } from "../data/etapas_electorales"
-import { calcularEstado, formatearRangoFechas } from "@/lib/formaters"
+import { calcularEstado } from "@/lib/formaters"
 import { PageHeader } from "@/components/web/page-header"
 import { GRID_HERO } from "@/data/inscripcion"
 
@@ -76,17 +73,30 @@ export default function CronogramaPage() {
         <PageHeader
           category="Calendario del Proceso"
           icon={CalendarDays}
-          title="Cronograma Electoral Oficial — CEIS 2027"
-          description="Fechas, actividades y medios de publicación establecidos por el Comité Electoral para el proceso de elección del CEIS."
+          title="Cronograma Electoral Actualizado (28 oct.)"
+          description="Fechas, actividades y medios de publicación actualizados por el Comité Electoral para las Elecciones CEIS 2027."
           withBorder
         />
-        <br />
+        <div className="mt-5 mb-8">
+          <a
+            href="/documentos/cronograma-electoral-actualizado-28-oct-2026.png"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex min-h-10 items-center rounded-lg border border-[var(--brand-gold)] bg-white px-4 text-sm font-semibold text-[var(--brand-navy)] transition-colors hover:bg-[var(--brand-gold-soft)]"
+          >
+            Ver documento oficial del cronograma (28 oct.)
+          </a>
+        </div>
 
 
         {/* Contenedor de la Línea de Tiempo */}
         <div className="relative">
           {ETAPAS_ELECTORALES.map((etapa, idx) => {
-            const estado = calcularEstado(etapa.fechaInicio, etapa.fechaFin, fechaActual)
+            const estado = etapa.fechaInicio && etapa.fechaFin
+              ? calcularEstado(etapa.fechaInicio, etapa.fechaFin, fechaActual)
+              : etapa.fechaInicio && fechaActual >= etapa.fechaInicio
+                ? "En curso"
+                : "Pendiente"
             const isLast = idx === ETAPAS_ELECTORALES.length - 1
             const isCompleted = estado === "Finalizado"
             const isActive = estado === "En curso"
@@ -197,7 +207,7 @@ export default function CronogramaPage() {
 
                       <CardDescription className="flex items-center gap-1.5 text-xs font-semibold text-[var(--brand-gold)]">
                         <CalendarDays className="size-3.5 shrink-0" />
-                        <span>{formatearRangoFechas(etapa.fechaInicio, etapa.fechaFin)}</span>
+                        <span>{etapa.fechaTexto}</span>
                       </CardDescription>
                     </CardHeader>
 
@@ -224,10 +234,10 @@ export default function CronogramaPage() {
           <ShieldCheck className="size-5 text-[var(--brand-navy)] shrink-0 mt-0.5" />
           <div className="space-y-1 text-xs sm:text-sm text-[var(--muted-foreground)] leading-relaxed">
             <p className="font-semibold text-[var(--brand-navy)]">
-              Principio de Preclusión y Seguridad Jurídica
+              Fecha del acto de sufragio
             </p>
             <p>
-              Ningún plazo podrá ser extendido ni retrotraído salvo resolución formal debidamente sustentada emitida por el Comité Electoral Universitario conforme al reglamento de la EPIS.
+              El Comité Electoral reevaluará la fecha del acto de sufragio y la comunicará oportunamente por sus canales oficiales.
             </p>
           </div>
         </div>

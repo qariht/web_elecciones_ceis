@@ -52,12 +52,20 @@ export function ReleaseAction({ initialRemainingSeconds }: { initialRemainingSec
 
   if (remaining === 0) {
     return (
-      <Link
-        href="/lista-preliminar"
-        className={`${styles.buttonEnter} mt-9 inline-flex min-h-12 items-center justify-center rounded-lg border-2 border-[#C6A24B] bg-[#101F36] px-7 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-[#182C4D] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C6A24B] sm:text-base`}
-      >
-        Ver lista preliminar
-      </Link>
+      <div className={`${styles.buttonEnter} mt-9 flex flex-wrap items-center justify-center gap-3`}>
+        <Link
+          href="/lista-preliminar"
+          className="inline-flex min-h-12 items-center justify-center rounded-lg border-2 border-[#C6A24B] bg-[#101F36] px-7 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-[#182C4D] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C6A24B] sm:text-base"
+        >
+          Ver lista preliminar
+        </Link>
+        <Link
+          href="/cronograma"
+          className="inline-flex min-h-12 items-center justify-center rounded-lg border-2 border-[#C6A24B] bg-white/90 px-7 py-3 text-sm font-semibold text-[#101F36] shadow-sm transition-colors hover:bg-[#FAEEC6] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C6A24B] sm:text-base"
+        >
+          Ver cronograma (28 oct.)
+        </Link>
+      </div>
     )
   }
 
