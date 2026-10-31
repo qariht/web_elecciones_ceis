@@ -17,7 +17,6 @@ import {
 } from "lucide-react"
 
 import { FOOTER_LINKS } from "@/data/navigation"
-import { useListaPublicada } from "@/lib/use-lista-publicada"
 
 const containerVariants = {
   hidden: { opacity: 0, y: 24 },
@@ -42,10 +41,9 @@ const itemVariants = {
 
 export function Footer() {
   const currentYear = new Date().getFullYear()
-  const listaPublicada = useListaPublicada()
 
   return (
-    <footer className="border-t border-[#DCE2EA] bg-[#101F36] text-white overflow-hidden">
+    <footer className="border-t border-brand-border bg-[#101F36] text-white overflow-hidden">
       {/* FRANJA DECORATIVA DORADA SUPERIOR */}
       <div className="h-1 w-full bg-gradient-to-r from-transparent via-[#C6A24B] to-transparent opacity-80" />
 
@@ -120,17 +118,15 @@ export function Footer() {
                   <span>Cronograma Oficial</span>
                 </Link>
               </li>
-              {listaPublicada && (
-                <li>
+              <li>
                   <Link
-                    href="/lista-preliminar"
+                    href="/lista-apta"
                     className="inline-flex items-center gap-2 text-white/80 hover:text-[#C6A24B] transition-colors"
                   >
                     <ListChecks className="size-3.5 text-[#C6A24B]" />
-                    <span>Lista Preliminar</span>
+                    <span>Lista apta</span>
                   </Link>
                 </li>
-              )}
               <li>
                 <Link
                   href="/comunicados"
@@ -184,7 +180,7 @@ export function Footer() {
             </ul>
 
             {/* Referencia institucional */}
-            <div className="mt-4 w-full max-w-md rounded-xl bg-white/5 p-3.5 border border-white/10 flex flex-col sm:flex-row items-center md:items-start gap-3 text-center sm:text-left mx-auto md:mx-0">
+            <div className="mt-4 w-full max-w-md rounded-xl bg-card/5 p-3.5 border border-white/10 flex flex-col sm:flex-row items-center md:items-start gap-3 text-center sm:text-left mx-auto md:mx-0">
               <Sparkles className="size-4 text-[#C6A24B] shrink-0 mt-0.5" />
               <p className="text-xs text-white/85 leading-relaxed">
                 Realizado en la gestión del Comité Electoral de la EPIS - 2026
@@ -211,7 +207,7 @@ export function Footer() {
           {/* Enlaces de soporte */}
           {FOOTER_LINKS && FOOTER_LINKS.length > 0 && (
             <div className="flex flex-wrap justify-center gap-4 text-xs">
-              {FOOTER_LINKS.filter((link) => listaPublicada || link.href !== "/lista-preliminar").map((link) => (
+              {FOOTER_LINKS.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}

@@ -29,18 +29,6 @@ import {
 /*  Tokens de diseño                                                          */
 /* -------------------------------------------------------------------------- */
 
-export const BRAND_THEME = {
-  "--brand-navy": "#101F36",
-  "--brand-gold": "#C6A24B",
-  "--brand-gold-soft": "#FAEEC6",
-  "--background": "#FFFFFF",
-  "--foreground": "#12161D",
-  "--secondary": "#F5F7FA",
-  "--muted": "#F5F7FA",
-  "--muted-foreground": "#566275",
-  "--border": "#DCE2EA",
-} as CSSProperties
-
 export const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1]
 
 /** Fondo de tablero para que las transparencias de un PNG se noten. */
@@ -54,10 +42,10 @@ export const CHECKER: CSSProperties = {
 
 /** Grilla arquitectónica del hero. */
 export const GRID_HERO =
-  "bg-[linear-gradient(to_right,#101f360a_1px,transparent_1px),linear-gradient(to_bottom,#101f360a_1px,transparent_1px)] bg-[size:32px_32px] [mask-image:radial-gradient(ellipse_70%_60%_at_50%_0%,#000_60%,transparent_100%)]"
+  "bg-[linear-gradient(to_right,var(--hero-grid)_1px,transparent_1px),linear-gradient(to_bottom,var(--hero-grid)_1px,transparent_1px)] bg-[size:32px_32px] [mask-image:radial-gradient(ellipse_70%_60%_at_50%_0%,#000_60%,transparent_100%)]"
 
 export const GRID_FADE =
-  "bg-[linear-gradient(to_right,#101f360a_1px,transparent_1px),linear-gradient(to_bottom,#101f360a_1px,transparent_1px)] bg-[size:20px_20px] [mask-image:linear-gradient(to_left,#000_0%,transparent_75%)]"
+  "bg-[linear-gradient(to_right,var(--hero-grid)_1px,transparent_1px),linear-gradient(to_bottom,var(--hero-grid)_1px,transparent_1px)] bg-[size:20px_20px] [mask-image:linear-gradient(to_left,#000_0%,transparent_75%)]"
 
 /* -------------------------------------------------------------------------- */
 /*  Configuración del logotipo                                                */

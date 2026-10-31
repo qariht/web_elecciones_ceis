@@ -25,14 +25,14 @@ export function ComunicadoCard({ item }: ComunicadoCardProps) {
   const isResolucion = item.tipo === "Resolución"
 
   return (
-    <Card className="transition-all duration-200 border-brand-border bg-white hover:border-brand-gold shadow-none hover:shadow-sm">
+    <Card className="transition-all duration-200 border-brand-border bg-card hover:border-brand-gold shadow-none hover:shadow-sm">
       <CardHeader className="p-5 sm:p-6 pb-3">
         {/* Metadatos superiores: Número y Fecha */}
         <div className="flex flex-wrap items-center justify-between gap-2.5 mb-2">
           <div className="flex items-center gap-2">
             <Badge
               variant="secondary"
-              className="gap-1.5 px-2.5 py-0.5 font-mono text-[11px] font-semibold tracking-wide bg-brand-secondary text-brand-navy border border-brand-border"
+              className="gap-1.5 px-2.5 py-0.5 font-mono text-[11px] font-semibold tracking-wide bg-brand-secondary text-[var(--brand-ink)] border border-brand-border"
             >
               <Tag className="size-3 text-brand-gold" />
               {item.numero}
@@ -42,7 +42,7 @@ export function ComunicadoCard({ item }: ComunicadoCardProps) {
               className={
                 isResolucion
                   ? "bg-brand-navy text-white text-[10px] font-medium border-transparent"
-                  : "bg-brand-gold-soft text-brand-navy border-brand-gold/50 text-[10px] font-medium"
+                  : "bg-brand-gold-soft text-[var(--brand-ink)] border-brand-gold/50 text-[10px] font-medium"
               }
             >
               {isResolucion ? (
@@ -66,7 +66,7 @@ export function ComunicadoCard({ item }: ComunicadoCardProps) {
         </div>
 
         {/* Título */}
-        <CardTitle className="text-lg sm:text-xl font-semibold text-brand-navy leading-snug tracking-tight">
+        <CardTitle className="text-lg sm:text-xl font-semibold text-[var(--brand-ink)] leading-snug tracking-tight">
           {item.titulo}
         </CardTitle>
       </CardHeader>
@@ -98,7 +98,7 @@ export function ComunicadoCard({ item }: ComunicadoCardProps) {
             <Button
               variant="outline"
               size="sm"
-              className="border-brand-border text-brand-navy hover:bg-brand-secondary hover:border-brand-navy font-medium gap-2 transition-colors w-full sm:w-auto"
+              className="border-brand-border text-[var(--brand-ink)] hover:bg-brand-secondary hover:border-brand-navy font-medium gap-2 transition-colors w-full sm:w-auto"
             >
               <a
                 href={item.archivoUrl}

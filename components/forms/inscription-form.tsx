@@ -48,34 +48,11 @@ import {
 /*  Tokens                                                                    */
 /* -------------------------------------------------------------------------- */
 
-const BRAND_THEME = {
-  "--brand-navy": "#101F36",
-  "--brand-gold": "#C6A24B",
-  "--brand-gold-soft": "#FAEEC6",
-  "--background": "#FFFFFF",
-  "--foreground": "#12161D",
-  "--card": "#FFFFFF",
-  "--card-foreground": "#12161D",
-  "--popover": "#FFFFFF",
-  "--popover-foreground": "#12161D",
-  "--primary": "#101F36",
-  "--primary-foreground": "#FFFFFF",
-  "--secondary": "#F5F7FA",
-  "--secondary-foreground": "#101F36",
-  "--muted": "#F5F7FA",
-  "--muted-foreground": "#566275",
-  "--accent": "#FAEEC6",
-  "--accent-foreground": "#101F36",
-  "--border": "#DCE2EA",
-  "--input": "#DCE2EA",
-  "--ring": "#C6A24B",
-} as CSSProperties
-
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1]
 
 /** Grilla arquitectónica del hero, desvanecida hacia la izquierda. */
 const GRID_FADE =
-  "pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,#101f360a_1px,transparent_1px),linear-gradient(to_bottom,#101f360a_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:linear-gradient(to_left,#000_0%,transparent_75%)]"
+  "pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,var(--hero-grid)_1px,transparent_1px),linear-gradient(to_bottom,var(--hero-grid)_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:linear-gradient(to_left,#000_0%,transparent_75%)]"
 
 /** Fondo de tablero para que las transparencias de un PNG se noten. */
 const CHECKER: CSSProperties = {
@@ -238,7 +215,7 @@ function Field({
   return (
     <div className="space-y-1.5">
       <div className="flex items-baseline justify-between gap-3">
-        <Label htmlFor={id} className="text-xs font-semibold text-[var(--brand-navy)]">
+        <Label htmlFor={id} className="text-xs font-semibold text-[var(--brand-ink)]">
           {label}
         </Label>
         {optional && <span className="font-mono text-[11px] text-[var(--muted-foreground)]">Opcional</span>}
@@ -267,7 +244,7 @@ function Group({
         <span className="grid size-7 shrink-0 place-items-center rounded-md bg-[var(--brand-navy)] font-mono text-[11px] font-bold text-white">
           {index}
         </span>
-        <h3 className="text-sm font-semibold tracking-tight text-[var(--brand-navy)]">{title}</h3>
+        <h3 className="text-sm font-semibold tracking-tight text-[var(--brand-ink)]">{title}</h3>
         <span aria-hidden className="h-px flex-1 bg-[var(--border)]" />
         {badge && <span className="font-mono text-[11px] text-[var(--muted-foreground)]">{badge}</span>}
       </div>
@@ -338,7 +315,7 @@ function ProgressMeter({ done, total }: { done: number; total: number }) {
         <span className="text-[11px] font-medium text-[var(--muted-foreground)]">
           {done === total ? "Formulario completo, listo para enviar" : "Requisitos completados"}
         </span>
-        <span className="font-mono text-[11px] font-semibold tabular-nums text-[var(--brand-navy)]">
+        <span className="font-mono text-[11px] font-semibold tabular-nums text-[var(--brand-ink)]">
           {done}
           <span className="text-[var(--muted-foreground)]">/{total}</span>
         </span>
@@ -398,7 +375,7 @@ function SuccessPanel({
       exit={{ opacity: 0 }}
       transition={{ duration: 0.3, ease: EASE }}
     >
-      <Card className="relative gap-0 overflow-hidden rounded-2xl border-[var(--brand-gold)] bg-white py-0 shadow-none">
+      <Card className="relative gap-0 overflow-hidden rounded-2xl border-[var(--brand-gold)] bg-card py-0 shadow-none">
         <div className="relative overflow-hidden bg-[var(--brand-navy)] px-6 py-4 sm:px-8">
           <div
             aria-hidden
@@ -411,7 +388,7 @@ function SuccessPanel({
         </div>
 
         <CardContent className="flex flex-col items-center gap-6 px-6 py-10 text-center sm:px-8">
-          <div className="flex size-16 items-center justify-center rounded-full bg-[var(--brand-gold-soft)] text-[var(--brand-navy)] ring-8 ring-[var(--brand-gold-soft)]/50">
+          <div className="flex size-16 items-center justify-center rounded-full bg-[var(--brand-gold-soft)] text-[var(--brand-ink)] ring-8 ring-[var(--brand-gold-soft)]/50">
             <motion.svg
               viewBox="0 0 52 52"
               className="size-10 stroke-[3]"
@@ -439,11 +416,11 @@ function SuccessPanel({
           </div>
 
           <div className="max-w-md space-y-2">
-            <h2 className="text-xl font-bold tracking-tight text-[var(--brand-navy)] sm:text-2xl">
+            <h2 className="text-xl font-bold tracking-tight text-[var(--brand-ink)] sm:text-2xl">
               Inscripción registrada
             </h2>
             <p className="text-xs leading-relaxed text-[var(--muted-foreground)] sm:text-sm">
-              El expediente de la lista <strong className="text-[var(--brand-navy)]">«{lista}»</strong> quedó
+              El expediente de la lista <strong className="text-[var(--brand-ink)]">«{lista}»</strong> quedó
               registrado en el sistema del Comité Electoral EPIS. Recibirás las observaciones o tachas por el
               correo indicado.
             </p>
@@ -457,22 +434,22 @@ function SuccessPanel({
                 </div>
               )}
               <div className="min-w-0">
-                <p className="truncate text-sm font-semibold text-[var(--brand-navy)]">{lista}</p>
+                <p className="truncate text-sm font-semibold text-[var(--brand-ink)]">{lista}</p>
                 <p className="text-[11px] text-[var(--muted-foreground)]">Recibido el {fecha}</p>
               </div>
             </div>
 
             <div className="border-t border-dashed border-[var(--border)] pt-3">
               <p className="text-[11px] font-medium text-[var(--muted-foreground)]">Código único de registro</p>
-              <div className="mt-1.5 flex items-center justify-between gap-2 rounded-lg border border-[var(--border)] bg-white py-1.5 pl-3 pr-1.5 shadow-2xs">
-                <code className="select-all font-mono text-base font-bold tracking-wider text-[var(--brand-navy)]">
+              <div className="mt-1.5 flex items-center justify-between gap-2 rounded-lg border border-[var(--border)] bg-card py-1.5 pl-3 pr-1.5 shadow-2xs">
+                <code className="select-all font-mono text-base font-bold tracking-wider text-[var(--brand-ink)]">
                   {code}
                 </code>
                 <Button
                   type="button"
                   variant="ghost"
                   size="icon"
-                  className="size-8 text-[var(--muted-foreground)] hover:text-[var(--brand-navy)]"
+                  className="size-8 text-[var(--muted-foreground)] hover:text-[var(--brand-ink)]"
                   onClick={copy}
                   aria-label={copied ? "Código copiado" : "Copiar código"}
                 >
@@ -498,7 +475,7 @@ function SuccessPanel({
           <Button
             type="button"
             variant="outline"
-            className="border-[var(--border)] text-[var(--brand-navy)] hover:border-[var(--brand-navy)] hover:bg-[var(--secondary)]"
+            className="border-[var(--border)] text-[var(--brand-ink)] hover:border-[var(--brand-navy)] hover:bg-[var(--secondary)]"
             onClick={onReset}
           >
             Registrar otra lista
@@ -733,7 +710,7 @@ export function InscriptionForm() {
 
   return (
     <MotionConfig reducedMotion="user">
-      <div className="mx-auto w-full max-w-2xl" style={BRAND_THEME}>
+      <div className="mx-auto w-full max-w-2xl" >
         <AnimatePresence mode="wait">
           {status === "success" && code ? (
             <SuccessPanel key="success" code={code} lista={submittedLista} logoUrl={logoPreview} onReset={reset} />
@@ -745,7 +722,7 @@ export function InscriptionForm() {
               exit={{ opacity: 0 }}
               transition={{ duration: 0.3, ease: EASE }}
             >
-              <Card className="relative gap-0 overflow-hidden rounded-2xl border-[var(--border)] bg-white py-0 shadow-none">
+              <Card className="relative gap-0 overflow-hidden rounded-2xl border-[var(--border)] bg-card py-0 shadow-none">
                 <motion.div
                   aria-hidden
                   className="absolute inset-x-0 top-0 z-10 h-[3px] origin-left bg-gradient-to-r from-[var(--brand-navy)] via-[var(--brand-gold)] to-[var(--brand-navy)]"
@@ -764,12 +741,12 @@ export function InscriptionForm() {
                         </span>
                         <Badge
                           variant="outline"
-                          className="border-[var(--border)] bg-white/80 font-mono text-[10px] text-[var(--muted-foreground)]"
+                          className="border-[var(--border)] bg-card/80 font-mono text-[10px] text-[var(--muted-foreground)]"
                         >
                           Convocatoria 2026
                         </Badge>
                       </div>
-                      <CardTitle className="text-xl font-bold tracking-tight text-[var(--brand-navy)] sm:text-2xl">
+                      <CardTitle className="text-xl font-bold tracking-tight text-[var(--brand-ink)] sm:text-2xl">
                         Inscripción de Lista de Candidatos
                       </CardTitle>
                       <CardDescription className="text-xs leading-relaxed text-[var(--muted-foreground)] sm:text-sm">
@@ -803,7 +780,7 @@ export function InscriptionForm() {
                               onChange={(e) => setField("listaName", e.target.value)}
                               onBlur={() => touch("listaName")}
                               {...a11y("listaName")}
-                              className={cn("h-10 rounded-lg bg-white", a11y("listaName").className)}
+                              className={cn("h-10 rounded-lg bg-card", a11y("listaName").className)}
                             />
                           </Field>
 
@@ -814,7 +791,7 @@ export function InscriptionForm() {
                               rows={2}
                               maxLength={200}
                               placeholder="Escribe el lema que sintetice las propuestas de campaña"
-                              className={cn("resize-none rounded-lg bg-white", a11y("lema").className)}
+                              className={cn("resize-none rounded-lg bg-card", a11y("lema").className)}
                               value={values.lema}
                               onChange={(e) => setField("lema", e.target.value)}
                               onBlur={() => touch("lema")}
@@ -829,7 +806,7 @@ export function InscriptionForm() {
                           {/* Logo ------------------------------------------ */}
                           <div className="space-y-2">
                             <div className="flex flex-wrap items-baseline justify-between gap-2">
-                              <Label htmlFor="logo" className="text-xs font-semibold text-[var(--brand-navy)]">
+                              <Label htmlFor="logo" className="text-xs font-semibold text-[var(--brand-ink)]">
                                 Logotipo de la plancha
                               </Label>
                               <div className="flex items-center gap-2">
@@ -871,7 +848,7 @@ export function InscriptionForm() {
                               <motion.div
                                 animate={draggingLogo ? { scale: 1.06 } : { scale: 1 }}
                                 transition={{ type: "spring", stiffness: 320, damping: 22 }}
-                                className="relative size-28 shrink-0 overflow-hidden rounded-lg border border-[var(--border)] bg-white shadow-2xs"
+                                className="relative size-28 shrink-0 overflow-hidden rounded-lg border border-[var(--border)] bg-card shadow-2xs"
                                 style={logoPreview ? CHECKER : undefined}
                               >
                                 <AnimatePresence mode="wait" initial={false}>
@@ -907,7 +884,7 @@ export function InscriptionForm() {
                               <div className="min-w-0 flex-1 text-center sm:text-left">
                                 {logoFile ? (
                                   <div className="space-y-0.5">
-                                    <p className="truncate text-sm font-semibold text-[var(--brand-navy)]" title={logoFile.name}>
+                                    <p className="truncate text-sm font-semibold text-[var(--brand-ink)]" title={logoFile.name}>
                                       {logoFile.name}
                                     </p>
                                     <p className="font-mono text-[11px] text-[var(--muted-foreground)]">
@@ -921,7 +898,7 @@ export function InscriptionForm() {
                                   </div>
                                 ) : (
                                   <div className="space-y-0.5">
-                                    <p className="text-sm font-semibold text-[var(--brand-navy)]">
+                                    <p className="text-sm font-semibold text-[var(--brand-ink)]">
                                       {draggingLogo ? "Suelta la imagen aquí" : "Arrastra el logotipo o selecciónalo"}
                                     </p>
                                     <p className="text-[11px] leading-relaxed text-[var(--muted-foreground)]">
@@ -937,7 +914,7 @@ export function InscriptionForm() {
                                     size="sm"
                                     variant="outline"
                                     onClick={() => logoInputRef.current?.click()}
-                                    className="gap-1.5 border-[var(--border)] bg-white text-[var(--brand-navy)] hover:border-[var(--brand-navy)] hover:bg-white"
+                                    className="gap-1.5 border-[var(--border)] bg-card text-[var(--brand-ink)] hover:border-[var(--brand-navy)] hover:bg-card"
                                   >
                                     {logoFile ? (
                                       <RefreshCw className="size-3.5 text-[var(--brand-gold)]" aria-hidden />
@@ -988,7 +965,7 @@ export function InscriptionForm() {
                               onChange={(e) => setField("personero", e.target.value)}
                               onBlur={() => touch("personero")}
                               {...a11y("personero")}
-                              className={cn("h-10 rounded-lg bg-white", a11y("personero").className)}
+                              className={cn("h-10 rounded-lg bg-card", a11y("personero").className)}
                             />
                           </Field>
 
@@ -1005,7 +982,7 @@ export function InscriptionForm() {
                                 onChange={(e) => setField("dni", e.target.value.replace(/\D/g, ""))}
                                 onBlur={() => touch("dni")}
                                 {...a11y("dni")}
-                                className={cn("h-10 rounded-lg bg-white font-mono tracking-wider", a11y("dni").className)}
+                                className={cn("h-10 rounded-lg bg-card font-mono tracking-wider", a11y("dni").className)}
                               />
                             </Field>
 
@@ -1022,7 +999,7 @@ export function InscriptionForm() {
                                 onChange={(e) => setField("celular", e.target.value.replace(/\D/g, ""))}
                                 onBlur={() => touch("celular")}
                                 {...a11y("celular")}
-                                className={cn("h-10 rounded-lg bg-white font-mono tracking-wider", a11y("celular").className)}
+                                className={cn("h-10 rounded-lg bg-card font-mono tracking-wider", a11y("celular").className)}
                               />
                             </Field>
                           </div>
@@ -1038,7 +1015,7 @@ export function InscriptionForm() {
                               onChange={(e) => setField("email", e.target.value)}
                               onBlur={() => touch("email")}
                               {...a11y("email")}
-                              className={cn("h-10 rounded-lg bg-white", a11y("email").className)}
+                              className={cn("h-10 rounded-lg bg-card", a11y("email").className)}
                             />
                           </Field>
                         </Group>
@@ -1047,7 +1024,7 @@ export function InscriptionForm() {
                         <Group index="III" title="Expediente de candidatura" badge="Requisitos">
                           <div className="space-y-2">
                             <div className="flex flex-wrap items-baseline justify-between gap-2">
-                              <Label htmlFor="expediente" className="text-xs font-semibold text-[var(--brand-navy)]">
+                              <Label htmlFor="expediente" className="text-xs font-semibold text-[var(--brand-ink)]">
                                 Carpeta consolidada: formatos F-01, F-02, F-03 y adherentes
                               </Label>
                               <div className="flex items-center gap-2">
@@ -1087,21 +1064,21 @@ export function InscriptionForm() {
                                   )}
                                 >
                                   <div className="flex min-w-0 items-center gap-3">
-                                    <div className="relative grid size-11 shrink-0 place-items-center rounded-lg border border-[var(--border)] bg-white text-[var(--brand-navy)] shadow-2xs">
+                                    <div className="relative grid size-11 shrink-0 place-items-center rounded-lg border border-[var(--border)] bg-card text-[var(--brand-ink)] shadow-2xs">
                                       <FileIcon className="size-5 text-[var(--brand-gold)]" aria-hidden />
                                       {!fileError && (
                                         <motion.span
                                           initial={{ scale: 0 }}
                                           animate={{ scale: 1 }}
                                           transition={{ type: "spring", stiffness: 500, damping: 22, delay: 0.05 }}
-                                          className="absolute -right-1.5 -top-1.5 grid size-4 place-items-center rounded-full bg-emerald-500 text-white ring-2 ring-white"
+                                          className="absolute -right-1.5 -top-1.5 grid size-4 place-items-center rounded-full bg-emerald-500 text-white ring-2 ring-card"
                                         >
                                           <Check className="size-2.5 stroke-[3.5]" aria-hidden />
                                         </motion.span>
                                       )}
                                     </div>
                                     <div className="min-w-0">
-                                      <p className="truncate text-sm font-semibold text-[var(--brand-navy)]" title={file.name}>
+                                      <p className="truncate text-sm font-semibold text-[var(--brand-ink)]" title={file.name}>
                                         {file.name}
                                       </p>
                                       <p className="font-mono text-[11px] text-[var(--muted-foreground)]">
@@ -1115,7 +1092,7 @@ export function InscriptionForm() {
                                       type="button"
                                       variant="ghost"
                                       size="sm"
-                                      className="gap-1.5 text-[var(--muted-foreground)] hover:text-[var(--brand-navy)]"
+                                      className="gap-1.5 text-[var(--muted-foreground)] hover:text-[var(--brand-ink)]"
                                       onClick={() => expInputRef.current?.click()}
                                     >
                                       <RefreshCw className="size-3.5" aria-hidden />
@@ -1150,7 +1127,7 @@ export function InscriptionForm() {
                                     "focus-within:ring-2 focus-within:ring-[var(--brand-gold)]/40",
                                     draggingExp
                                       ? "border-[var(--brand-gold)] bg-[var(--brand-gold-soft)]/50"
-                                      : "border-[var(--border)] bg-[var(--secondary)] hover:border-[var(--brand-navy)]/60 hover:bg-white",
+                                      : "border-[var(--border)] bg-[var(--secondary)] hover:border-[var(--brand-navy)]/60 hover:bg-card",
                                     fileError && !draggingExp && "border-destructive/60",
                                   )}
                                 >
@@ -1162,12 +1139,12 @@ export function InscriptionForm() {
                                         ? { y: { repeat: Infinity, duration: 0.8 }, scale: { duration: 0.2 } }
                                         : { type: "spring", stiffness: 300, damping: 20 }
                                     }
-                                    className="grid size-12 place-items-center rounded-xl border border-[var(--border)] bg-white text-[var(--brand-gold)] shadow-2xs"
+                                    className="grid size-12 place-items-center rounded-xl border border-[var(--border)] bg-card text-[var(--brand-gold)] shadow-2xs"
                                   >
                                     <UploadCloud className="size-5" aria-hidden />
                                   </motion.div>
                                   <div className="space-y-1">
-                                    <p className="text-sm font-semibold text-[var(--brand-navy)]">
+                                    <p className="text-sm font-semibold text-[var(--brand-ink)]">
                                       {draggingExp ? "Suelta el expediente aquí" : "Arrastra el archivo o haz clic para seleccionarlo"}
                                     </p>
                                     <p className="mx-auto max-w-sm text-[11px] leading-relaxed text-[var(--muted-foreground)]">
@@ -1247,7 +1224,7 @@ export function InscriptionForm() {
                           <div className="space-y-1.5 pb-1">
                             <div className="flex items-center justify-between font-mono text-[11px] text-[var(--muted-foreground)]">
                               <span>{progress < 100 ? "Transmitiendo expediente" : "Validando y registrando en mesa"}</span>
-                              <span className="font-semibold tabular-nums text-[var(--brand-navy)]">{progress}%</span>
+                              <span className="font-semibold tabular-nums text-[var(--brand-ink)]">{progress}%</span>
                             </div>
                             <div
                               role="progressbar"
@@ -1284,7 +1261,7 @@ export function InscriptionForm() {
                     >
                       <span
                         aria-hidden
-                        className="pointer-events-none absolute inset-y-0 -left-1/3 w-1/3 -skew-x-12 bg-white/15 opacity-0 transition-all duration-700 group-hover/btn:left-full group-hover/btn:opacity-100"
+                        className="pointer-events-none absolute inset-y-0 -left-1/3 w-1/3 -skew-x-12 bg-card/15 opacity-0 transition-all duration-700 group-hover/btn:left-full group-hover/btn:opacity-100"
                       />
                       {busy ? (
                         <span className="flex items-center gap-2">

@@ -114,12 +114,15 @@ export function BinaryParticleBackground() {
         scatterRatio = 0
       }
 
+      const dark = document.documentElement.classList.contains("dark")
       for (const particle of particles) {
         const x = particle.targetX * (1 - scatterRatio) + particle.scatterX * scatterRatio
         const y = particle.targetY * (1 - scatterRatio) + particle.scatterY * scatterRatio
         const formedOpacity = 1 - scatterRatio
         const pulse = 0.12 + formedOpacity * 0.4 + (Math.sin(time / 2600 + particle.phase) + 1) * 0.025
-        context.fillStyle = particle.glyph === "0" ? `rgba(16, 31, 54, ${pulse})` : `rgba(198, 162, 75, ${pulse})`
+        context.fillStyle = particle.glyph === "0"
+          ? dark ? `rgba(237, 242, 250, ${pulse})` : `rgba(16, 31, 54, ${pulse})`
+          : dark ? `rgba(223, 196, 120, ${pulse})` : `rgba(198, 162, 75, ${pulse})`
         context.fillText(particle.glyph, x, y)
       }
       animationFrame = requestAnimationFrame(draw)

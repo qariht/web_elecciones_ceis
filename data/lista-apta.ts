@@ -1,15 +1,15 @@
-export interface IntegrantePreliminar {
+export interface IntegranteLista {
   cargo: string
   nombre: string
 }
 
-export interface ListaPreliminar {
+export interface ListaApta {
   nombre: string
   logo: string
-  integrantes: IntegrantePreliminar[]
+  integrantes: IntegranteLista[]
 }
 
-export const LISTA_PRELIMINAR: ListaPreliminar = {
+export const LISTA_APTA: ListaApta = {
   nombre: "Avanza Sistemas PRO",
   logo: "/imagenes/logo-lista-1-avanza-sistemas-pro.jpeg",
   integrantes: [

@@ -21,7 +21,7 @@ export function StatusBadge({ estado }: StatusBadgeProps) {
 
   if (estado === "En curso") {
     return (
-      <Badge className="bg-brand-gold-soft text-brand-navy border border-brand-gold/50 gap-1.5 px-2.5 py-0.5 font-semibold animate-pulse">
+      <Badge className="bg-brand-gold-soft text-[var(--brand-ink)] border border-brand-gold/50 gap-1.5 px-2.5 py-0.5 font-semibold animate-pulse">
         <span className="size-1.5 rounded-full bg-brand-navy" />
         En curso
       </Badge>

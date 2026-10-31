@@ -11,9 +11,9 @@ export function LegalFooterNotice({ notice, className = "" }: LegalFooterNoticeP
     <div
       className={`rounded-xl border border-brand-border bg-brand-secondary p-4 sm:p-5 flex items-start gap-3.5 ${className}`}
     >
-      <ShieldCheck className="size-5 text-brand-navy shrink-0 mt-0.5" />
+      <ShieldCheck className="size-5 text-[var(--brand-ink)] shrink-0 mt-0.5" />
       <div className="space-y-1 text-xs sm:text-sm text-brand-muted-fg leading-relaxed">
-        <p className="font-semibold text-brand-navy">{notice.titulo}</p>
+        <p className="font-semibold text-[var(--brand-ink)]">{notice.titulo}</p>
         <p>{notice.texto}</p>
       </div>
     </div>

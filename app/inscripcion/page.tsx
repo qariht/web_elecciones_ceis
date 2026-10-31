@@ -51,7 +51,6 @@ import type { Errors, MemberTextKey, DocSpec } from "@/data/types"
 import type { Member, MemberFiles } from "@/lib/inscripcion"
 
 import {
-  BRAND_THEME,
   EASE,
   CHECKER,
   GRID_HERO,
@@ -123,7 +122,7 @@ type TextFieldProps = Omit<ComponentProps<"input">, "id" | "className" | "onChan
 function TextField({ id, label, error, mono, onValue, ...props }: TextFieldProps) {
   return (
     <div data-invalid={error ? "true" : undefined} className="space-y-1.5">
-      <Label htmlFor={id} className="text-xs font-semibold text-[var(--brand-navy)]">
+      <Label htmlFor={id} className="text-xs font-semibold text-[var(--brand-ink)]">
         {label} <span className="text-[var(--brand-gold)]">*</span>
       </Label>
       <Input
@@ -133,7 +132,7 @@ function TextField({ id, label, error, mono, onValue, ...props }: TextFieldProps
         aria-invalid={error ? true : undefined}
         aria-describedby={error ? `${id}-error` : undefined}
         className={cn(
-          "h-10 px-3.5 rounded-lg bg-white",
+          "h-10 px-3.5 rounded-lg bg-card",
           mono && "font-mono tracking-wider",
           error
             ? "border-destructive focus-visible:ring-destructive/30"
@@ -151,7 +150,7 @@ function FormatChips({ items }: { items: string[] }) {
       {items.map((t) => (
         <span
           key={t}
-          className="rounded border border-[var(--border)] bg-white px-1.5 py-0.5 font-mono text-[10px] font-medium text-[var(--muted-foreground)]"
+          className="rounded border border-[var(--border)] bg-card px-1.5 py-0.5 font-mono text-[10px] font-medium text-[var(--muted-foreground)]"
         >
           {t}
         </span>
@@ -179,7 +178,7 @@ function StatusDot({ done }: { done: boolean }) {
     <span
       className={cn(
         "grid size-4 shrink-0 place-items-center rounded-full border transition-colors",
-        done ? "border-emerald-500 bg-emerald-500" : "border-[var(--border)] bg-white",
+        done ? "border-emerald-500 bg-emerald-500" : "border-[var(--border)] bg-card",
       )}
     >
       <AnimatePresence initial={false}>
@@ -225,7 +224,7 @@ function ProgressRing({ done, total }: { done: number; total: number }) {
           transition={{ duration: 0.45, ease: EASE }}
         />
       </svg>
-      <span className="absolute font-mono text-[10px] font-bold tabular-nums text-[var(--brand-navy)]">
+      <span className="absolute font-mono text-[10px] font-bold tabular-nums text-[var(--brand-ink)]">
         {complete ? <Check className="size-4 stroke-[3] text-emerald-600" aria-hidden /> : `${done}/${total}`}
       </span>
     </span>
@@ -285,7 +284,7 @@ function SubmitButton({
     >
       <span
         aria-hidden
-        className="pointer-events-none absolute inset-y-0 -left-1/3 w-1/3 -skew-x-12 bg-white/15 opacity-0 transition-all duration-700 group-hover/btn:left-full group-hover/btn:opacity-100"
+        className="pointer-events-none absolute inset-y-0 -left-1/3 w-1/3 -skew-x-12 bg-card/15 opacity-0 transition-all duration-700 group-hover/btn:left-full group-hover/btn:opacity-100"
       />
       {submitting ? (
         <span className="flex items-center gap-2">
@@ -359,7 +358,7 @@ function FileSlot({ id, label, icon: Icon, pattern, accept, badge, file, error, 
       className={cn("space-y-2", !compact && "rounded-xl border border-[var(--border)] bg-[var(--secondary)]/60 p-4")}
     >
       <div className="flex items-center justify-between gap-2">
-        <Label htmlFor={id} className="flex items-center gap-1.5 text-xs font-semibold text-[var(--brand-navy)]">
+        <Label htmlFor={id} className="flex items-center gap-1.5 text-xs font-semibold text-[var(--brand-ink)]">
           <Icon className="size-4 shrink-0 text-[var(--brand-gold)]" aria-hidden />
           {label} <span className="text-[var(--brand-gold)]">*</span>
         </Label>
@@ -369,7 +368,7 @@ function FileSlot({ id, label, icon: Icon, pattern, accept, badge, file, error, 
       {pattern && (
         <p className="text-[11px] leading-relaxed text-[var(--muted-foreground)]">
           Nombre esperado:{" "}
-          <code className="break-all rounded border border-[var(--border)] bg-white px-1.5 py-0.5 font-mono text-[10px] text-[var(--brand-navy)]">
+          <code className="break-all rounded border border-[var(--border)] bg-card px-1.5 py-0.5 font-mono text-[10px] text-[var(--brand-ink)]">
             {pattern}
           </code>
         </p>
@@ -405,8 +404,8 @@ function FileSlot({ id, label, icon: Icon, pattern, accept, badge, file, error, 
           >
             <span
               className={cn(
-                "relative grid size-10 shrink-0 place-items-center rounded-lg border bg-white shadow-2xs",
-                error ? "border-destructive/30 text-destructive" : "border-[var(--border)] text-[var(--brand-navy)]",
+                "relative grid size-10 shrink-0 place-items-center rounded-lg border bg-card shadow-2xs",
+                error ? "border-destructive/30 text-destructive" : "border-[var(--border)] text-[var(--brand-ink)]",
               )}
             >
               <Icon className="size-[18px]" aria-hidden />
@@ -415,7 +414,7 @@ function FileSlot({ id, label, icon: Icon, pattern, accept, badge, file, error, 
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   transition={{ type: "spring", stiffness: 500, damping: 22, delay: 0.05 }}
-                  className="absolute -right-1.5 -top-1.5 grid size-4 place-items-center rounded-full bg-emerald-500 text-white ring-2 ring-white"
+                  className="absolute -right-1.5 -top-1.5 grid size-4 place-items-center rounded-full bg-emerald-500 text-white ring-2 ring-card"
                 >
                   <Check className="size-2.5 stroke-[3.5]" aria-hidden />
                 </motion.span>
@@ -423,7 +422,7 @@ function FileSlot({ id, label, icon: Icon, pattern, accept, badge, file, error, 
             </span>
 
             <span className="min-w-0 flex-1">
-              <span className="block truncate text-xs font-semibold text-[var(--brand-navy)]" title={file.name}>
+              <span className="block truncate text-xs font-semibold text-[var(--brand-ink)]" title={file.name}>
                 {file.name}
               </span>
               <span className="block font-mono text-[11px] text-[var(--muted-foreground)]">
@@ -437,7 +436,7 @@ function FileSlot({ id, label, icon: Icon, pattern, accept, badge, file, error, 
                 type="button"
                 variant="ghost"
                 size="icon"
-                className="size-8 text-[var(--muted-foreground)] hover:text-[var(--brand-navy)]"
+                className="size-8 text-[var(--muted-foreground)] hover:text-[var(--brand-ink)]"
                 onClick={pick}
                 aria-label={`Reemplazar ${label}`}
               >
@@ -472,7 +471,7 @@ function FileSlot({ id, label, icon: Icon, pattern, accept, badge, file, error, 
               height,
               dragging
                 ? "border-[var(--brand-gold)] bg-[var(--brand-gold-soft)]/50"
-                : "border-[var(--border)] bg-white hover:border-[var(--brand-navy)]/50",
+                : "border-[var(--border)] bg-card hover:border-[var(--brand-navy)]/50",
               error && !dragging && "border-destructive/60",
             )}
           >
@@ -489,7 +488,7 @@ function FileSlot({ id, label, icon: Icon, pattern, accept, badge, file, error, 
               <UploadCloud className="size-[18px]" aria-hidden />
             </motion.span>
             <span className="min-w-0 flex-1">
-              <span className="block text-xs font-semibold text-[var(--brand-navy)]">
+              <span className="block text-xs font-semibold text-[var(--brand-ink)]">
                 {dragging ? "Suelta el archivo aquí" : "Arrastra o haz clic para cargar"}
               </span>
               <span className="block text-[11px] text-[var(--muted-foreground)]">Solo archivos {badge}</span>
@@ -549,7 +548,7 @@ function LogoUploader({
   return (
     <div data-invalid={error ? "true" : undefined} className="space-y-2">
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <Label htmlFor="logo" className="flex items-center gap-1.5 text-xs font-semibold text-[var(--brand-navy)]">
+        <Label htmlFor="logo" className="flex items-center gap-1.5 text-xs font-semibold text-[var(--brand-ink)]">
           <ImageIcon className="size-4 shrink-0 text-[var(--brand-gold)]" aria-hidden />
           Logotipo de la plancha
           {LOGO_REQUIRED && <span className="text-[var(--brand-gold)]">*</span>}
@@ -591,7 +590,7 @@ function LogoUploader({
         <motion.div
           animate={dragging ? { scale: 1.06 } : { scale: 1 }}
           transition={{ type: "spring", stiffness: 320, damping: 22 }}
-          className="relative size-28 shrink-0 overflow-hidden rounded-lg border border-[var(--border)] bg-white shadow-2xs"
+          className="relative size-28 shrink-0 overflow-hidden rounded-lg border border-[var(--border)] bg-card shadow-2xs"
           style={preview ? CHECKER : undefined}
         >
           <AnimatePresence mode="wait" initial={false}>
@@ -624,7 +623,7 @@ function LogoUploader({
         <div className="min-w-0 flex-1 text-center sm:text-left">
           {file ? (
             <div className="space-y-0.5">
-              <p className="truncate text-sm font-semibold text-[var(--brand-navy)]" title={file.name}>
+              <p className="truncate text-sm font-semibold text-[var(--brand-ink)]" title={file.name}>
                 {file.name}
               </p>
               <p className="font-mono text-[11px] text-[var(--muted-foreground)]">
@@ -638,7 +637,7 @@ function LogoUploader({
             </div>
           ) : (
             <div className="space-y-0.5">
-              <p className="text-sm font-semibold text-[var(--brand-navy)]">
+              <p className="text-sm font-semibold text-[var(--brand-ink)]">
                 {dragging ? "Suelta la imagen aquí" : "Arrastra el logotipo o selecciónalo"}
               </p>
               <p className="text-[11px] leading-relaxed text-[var(--muted-foreground)]">
@@ -653,7 +652,7 @@ function LogoUploader({
               size="sm"
               variant="outline"
               onClick={() => inputRef.current?.click()}
-              className="gap-1.5 border-[var(--border)] bg-white text-[var(--brand-navy)] hover:border-[var(--brand-navy)] hover:bg-white"
+              className="gap-1.5 border-[var(--border)] bg-card text-[var(--brand-ink)] hover:border-[var(--brand-navy)] hover:bg-card"
             >
               {file ? (
                 <RefreshCw className="size-3.5 text-[var(--brand-gold)]" aria-hidden />
@@ -746,7 +745,7 @@ function MemberCard({ member, index, open, canRemove, errors, onToggle, onRemove
       exit={{ opacity: 0, x: -18, transition: { duration: 0.2 } }}
       transition={{ duration: 0.3, ease: EASE }}
       className={cn(
-        "relative scroll-mt-24 overflow-hidden rounded-2xl border bg-white transition-colors",
+        "relative scroll-mt-24 overflow-hidden rounded-2xl border bg-card transition-colors",
         open ? "border-[var(--brand-gold)]/60" : "border-[var(--border)]",
         errCount > 0 && !open && "border-destructive/50",
       )}
@@ -772,7 +771,7 @@ function MemberCard({ member, index, open, canRemove, errors, onToggle, onRemove
           </span>
           <span className="min-w-0 flex-1">
             <span className="flex items-center gap-2">
-              <span className="truncate text-sm font-bold leading-tight text-[var(--brand-navy)]">
+              <span className="truncate text-sm font-bold leading-tight text-[var(--brand-ink)]">
                 {fullName || member.cargo || cargoTituloFor(index)}
               </span>
               <AnimatePresence initial={false}>
@@ -865,7 +864,7 @@ function MemberCard({ member, index, open, canRemove, errors, onToggle, onRemove
 
               <div className="space-y-3">
                 <div className="flex items-center gap-3">
-                  <span className="text-xs font-bold text-[var(--brand-navy)]">Documentación reglamentaria</span>
+                  <span className="text-xs font-bold text-[var(--brand-ink)]">Documentación reglamentaria</span>
                   <span aria-hidden className="h-px flex-1 bg-[var(--border)]" />
                   <span className="font-mono text-[11px] tabular-nums text-[var(--muted-foreground)]">
                     {prog.docsDone}/{docs.length} en PDF
@@ -905,7 +904,7 @@ function MemberCard({ member, index, open, canRemove, errors, onToggle, onRemove
 function BallotPreview({ name, logo }: { name: string; logo: string | null }) {
   const filled = name.trim().length > 0
   return (
-    <div className="overflow-hidden rounded-xl border-2 border-[var(--brand-navy)] bg-white">
+    <div className="overflow-hidden rounded-xl border-2 border-[var(--brand-navy)] bg-card">
       <div className="flex items-center justify-between bg-[var(--brand-navy)] px-3 py-1.5">
         <span className="text-[11px] font-semibold text-white">Cédula de sufragio</span>
         <span className="font-mono text-[10px] text-[var(--brand-gold)]">Vista previa</span>
@@ -951,7 +950,7 @@ function BallotPreview({ name, logo }: { name: string; logo: string | null }) {
               transition={{ duration: 0.15 }}
               className={cn(
                 "line-clamp-3 break-words text-sm leading-snug",
-                filled ? "font-bold text-[var(--brand-navy)]" : "font-medium text-[var(--muted-foreground)]/70",
+                filled ? "font-bold text-[var(--brand-ink)]" : "font-medium text-[var(--muted-foreground)]/70",
               )}
             >
               {filled ? name.trim() : "Nombre de la lista"}
@@ -991,12 +990,12 @@ function SummaryPanel({
   onFocusMember,
 }: SummaryProps) {
   return (
-    <div className="space-y-4 rounded-2xl border border-[var(--border)] bg-white p-4">
+    <div className="space-y-4 rounded-2xl border border-[var(--border)] bg-card p-4">
       <BallotPreview name={nombreLista} logo={logoPreview} />
 
       <div className="space-y-2">
         <div className="flex items-baseline justify-between">
-          <span className="text-xs font-semibold text-[var(--brand-navy)]">Avance del expediente</span>
+          <span className="text-xs font-semibold text-[var(--brand-ink)]">Avance del expediente</span>
           <span className="font-mono text-[11px] tabular-nums text-[var(--muted-foreground)]">
             {done} de {total}
           </span>
@@ -1017,7 +1016,7 @@ function SummaryPanel({
           />
         </div>
         <p className="text-right font-mono text-[11px] text-[var(--muted-foreground)]">
-          <AnimatedNumber value={percent} className="font-bold text-[var(--brand-navy)]" />% completado
+          <AnimatedNumber value={percent} className="font-bold text-[var(--brand-ink)]" />% completado
         </p>
       </div>
 
@@ -1026,7 +1025,7 @@ function SummaryPanel({
         {general.map((g) => (
           <div key={g.key} className="flex items-center gap-2.5 py-1 text-xs">
             <StatusDot done={g.done} />
-            <span className={cn("flex-1", g.done ? "text-[var(--brand-navy)]" : "text-[var(--muted-foreground)]")}>
+            <span className={cn("flex-1", g.done ? "text-[var(--brand-ink)]" : "text-[var(--muted-foreground)]")}>
               {g.label}
             </span>
           </div>
@@ -1052,7 +1051,7 @@ function SummaryPanel({
                   className="flex w-full items-center gap-2.5 rounded-md px-1 py-1 text-left text-xs transition-colors hover:bg-[var(--secondary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-gold)]/40"
                 >
                   <StatusDot done={m.done === m.total} />
-                  <span className="min-w-0 flex-1 truncate text-[var(--brand-navy)]">
+                  <span className="min-w-0 flex-1 truncate text-[var(--brand-ink)]">
                     {m.name || m.label}
                   </span>
                   <span className="font-mono text-[11px] tabular-nums text-[var(--muted-foreground)]">
@@ -1109,7 +1108,7 @@ function SuccessView({
       transition={{ duration: 0.3, ease: EASE }}
       className="mx-auto w-full max-w-2xl"
     >
-      <div className="relative overflow-hidden rounded-2xl border border-[var(--brand-gold)] bg-white">
+      <div className="relative overflow-hidden rounded-2xl border border-[var(--brand-gold)] bg-card">
         <div className="relative overflow-hidden bg-[var(--brand-navy)] px-6 py-4 sm:px-8">
           <div
             aria-hidden
@@ -1122,7 +1121,7 @@ function SuccessView({
         </div>
 
         <div className="flex flex-col items-center gap-6 px-6 py-10 text-center sm:px-8">
-          <div className="grid size-16 place-items-center rounded-full bg-[var(--brand-gold-soft)] text-[var(--brand-navy)] ring-8 ring-[var(--brand-gold-soft)]/50">
+          <div className="grid size-16 place-items-center rounded-full bg-[var(--brand-gold-soft)] text-[var(--brand-ink)] ring-8 ring-[var(--brand-gold-soft)]/50">
             <motion.svg
               viewBox="0 0 52 52"
               className="size-10 stroke-[3]"
@@ -1150,12 +1149,12 @@ function SuccessView({
           </div>
 
           <div className="max-w-md space-y-2">
-            <h2 className="text-2xl font-bold tracking-tight text-[var(--brand-navy)] sm:text-3xl">
+            <h2 className="text-2xl font-bold tracking-tight text-[var(--brand-ink)] sm:text-3xl">
               Expediente presentado
             </h2>
             <p className="text-xs leading-relaxed text-[var(--muted-foreground)] sm:text-sm">
               El Comité Electoral recibió el expediente de la lista{" "}
-              <strong className="text-[var(--brand-navy)]">«{nombreLista}»</strong>. La documentación se verificará
+              <strong className="text-[var(--brand-ink)]">«{nombreLista}»</strong>. La documentación se verificará
               durante el periodo reglamentario de tachas y observaciones.
             </p>
           </div>
@@ -1167,7 +1166,7 @@ function SuccessView({
               </div>
             )}
             <div className="min-w-0">
-              <p className="truncate text-sm font-semibold text-[var(--brand-navy)]">{nombreLista}</p>
+              <p className="truncate text-sm font-semibold text-[var(--brand-ink)]">{nombreLista}</p>
               <p className="text-[11px] text-[var(--muted-foreground)]">Recibido el {fecha}</p>
             </div>
           </div>
@@ -1176,8 +1175,8 @@ function SuccessView({
         {/* Perforación de ticket */}
         <div className="relative">
           <div aria-hidden className="border-t border-dashed border-[var(--border)]" />
-          <span aria-hidden className="absolute -left-3 -top-3 size-6 rounded-full border border-[var(--brand-gold)] bg-white" />
-          <span aria-hidden className="absolute -right-3 -top-3 size-6 rounded-full border border-[var(--brand-gold)] bg-white" />
+          <span aria-hidden className="absolute -left-3 -top-3 size-6 rounded-full border border-[var(--brand-gold)] bg-card" />
+          <span aria-hidden className="absolute -right-3 -top-3 size-6 rounded-full border border-[var(--brand-gold)] bg-card" />
         </div>
 
         <div className="grid grid-cols-2 divide-x divide-[var(--border)] bg-[var(--secondary)]/50">
@@ -1189,7 +1188,7 @@ function SuccessView({
               <Icon className="size-5 shrink-0 text-[var(--brand-gold)]" aria-hidden />
               <div>
                 <p className="text-[11px] font-medium text-[var(--muted-foreground)]">{label}</p>
-                <p className="text-sm font-semibold tabular-nums text-[var(--brand-navy)]">{value}</p>
+                <p className="text-sm font-semibold tabular-nums text-[var(--brand-ink)]">{value}</p>
               </div>
             </div>
           ))}
@@ -1200,7 +1199,7 @@ function SuccessView({
             type="button"
             variant="outline"
             onClick={onHome}
-            className="border-[var(--border)] font-semibold text-[var(--brand-navy)] hover:border-[var(--brand-navy)] hover:bg-[var(--secondary)]"
+            className="border-[var(--border)] font-semibold text-[var(--brand-ink)] hover:border-[var(--brand-navy)] hover:bg-[var(--secondary)]"
           >
             Volver al inicio
           </Button>
@@ -1454,7 +1453,7 @@ export default function InscripcionPage() {
       <div
         ref={wrapperRef}
         onMouseMove={handleMouseMove}
-        style={BRAND_THEME}
+        
         className="relative isolate w-full"
       >
         {/* Fondo grilla*/}
@@ -1481,7 +1480,7 @@ export default function InscripcionPage() {
             initial={{ opacity: 0, y: -8, filter: "blur(4px)" }}
             animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
             transition={{ duration: 0.55, ease: EASE }}
-            className="flex items-start gap-3 overflow-hidden rounded-xl border border-[var(--brand-gold)]/45 bg-[var(--brand-gold)]/10 px-4 py-3 text-sm text-[var(--brand-navy)] shadow-sm"
+            className="flex items-start gap-3 overflow-hidden rounded-xl border border-[var(--brand-gold)]/45 bg-[var(--brand-gold)]/10 px-4 py-3 text-sm text-[var(--brand-ink)] shadow-sm"
           >
             <Info className="mt-0.5 size-4 shrink-0 text-[var(--brand-gold)]" aria-hidden />
             <p>
@@ -1543,14 +1542,14 @@ export default function InscripcionPage() {
                     </AnimatePresence>
 
                     {/* --------------------- Sección 01 ---------------------- */}
-                    <section className="overflow-hidden rounded-2xl border border-[var(--border)] bg-white">
+                    <section className="overflow-hidden rounded-2xl border border-[var(--border)] bg-card">
                       <div className="relative overflow-hidden border-b border-[var(--border)] bg-[var(--secondary)]/50 px-5 py-5 sm:px-6">
                         <div aria-hidden className={cn("pointer-events-none absolute inset-0", GRID_FADE)} />
                         <div className="relative space-y-1.5">
                           <span className="font-mono text-xs font-semibold uppercase tracking-wider text-[var(--brand-gold)]">
                             Sección 01
                           </span>
-                          <h2 className="flex items-center gap-2 text-lg font-bold text-[var(--brand-navy)] sm:text-xl">
+                          <h2 className="flex items-center gap-2 text-lg font-bold text-[var(--brand-ink)] sm:text-xl">
                             <FileText className="size-5 shrink-0 text-[var(--brand-gold)]" aria-hidden />
                             Información general de la lista
                           </h2>
@@ -1577,7 +1576,7 @@ export default function InscripcionPage() {
 
                         <div className="space-y-4">
                           <div className="flex items-center gap-3">
-                            <span className="text-xs font-bold text-[var(--brand-navy)]">
+                            <span className="text-xs font-bold text-[var(--brand-ink)]">
                               Archivos generales de la plancha
                             </span>
                             <span aria-hidden className="h-px flex-1 bg-[var(--border)]" />
@@ -1623,8 +1622,8 @@ export default function InscripcionPage() {
                           <span className="font-mono text-xs font-semibold uppercase tracking-wider text-[var(--brand-gold)]">
                             Sección 02
                           </span>
-                          <h2 className="flex items-center gap-2 text-lg font-bold tracking-tight text-[var(--brand-navy)] sm:text-xl">
-                            <Users className="size-5 shrink-0 text-[var(--brand-navy)]" aria-hidden />
+                          <h2 className="flex items-center gap-2 text-lg font-bold tracking-tight text-[var(--brand-ink)] sm:text-xl">
+                            <Users className="size-5 shrink-0 text-[var(--brand-ink)]" aria-hidden />
                             Integrantes y personero de la lista
                             <motion.span
                               key={members.length + 1}
@@ -1646,7 +1645,7 @@ export default function InscripcionPage() {
                           onClick={addMember}
                           variant="outline"
                           size="sm"
-                          className="shrink-0 gap-1.5 border-[var(--border)] font-semibold text-[var(--brand-navy)] hover:border-[var(--brand-navy)] hover:bg-[var(--secondary)]"
+                          className="shrink-0 gap-1.5 border-[var(--border)] font-semibold text-[var(--brand-ink)] hover:border-[var(--brand-navy)] hover:bg-[var(--secondary)]"
                         >
                           <UserPlus className="size-4 text-[var(--brand-gold)]" aria-hidden />
                           Agregar integrante
@@ -1717,11 +1716,11 @@ export default function InscripcionPage() {
                           className="overflow-hidden"
                         >
                           <div className="space-y-2 rounded-xl border border-[var(--brand-gold)]/40 bg-[var(--brand-gold-soft)]/40 p-4">
-                            <div className="flex justify-between gap-3 text-xs font-medium text-[var(--brand-navy)]">
+                            <div className="flex justify-between gap-3 text-xs font-medium text-[var(--brand-ink)]">
                               <span className="truncate">Subiendo: {uploadProgress.fileName}</span>
                               <span className="shrink-0 font-mono">{uploadProgress.completed}/{uploadProgress.total}</span>
                             </div>
-                            <div className="h-2 overflow-hidden rounded-full bg-white">
+                            <div className="h-2 overflow-hidden rounded-full bg-card">
                               <motion.div className="h-full bg-[var(--brand-gold)]" initial={false} animate={{ width: `${(uploadProgress.completed / uploadProgress.total) * 100}%` }} />
                             </div>
                           </div>
@@ -1755,10 +1754,10 @@ export default function InscripcionPage() {
 
                 {/* Barra de envío para pantallas pequeñas */}
                 <div className="sticky bottom-3 z-30 lg:hidden">
-                  <div className="flex items-center gap-3 rounded-2xl border border-[var(--border)] bg-white/90 p-2.5 pl-4 shadow-lg backdrop-blur-md">
+                  <div className="flex items-center gap-3 rounded-2xl border border-[var(--border)] bg-card/90 p-2.5 pl-4 shadow-lg backdrop-blur-md">
                     <div className="min-w-0 flex-1 space-y-1">
                       <p className="font-mono text-[11px] text-[var(--muted-foreground)]">
-                        <AnimatedNumber value={progress.percent} className="font-bold text-[var(--brand-navy)]" />%
+                        <AnimatedNumber value={progress.percent} className="font-bold text-[var(--brand-ink)]" />%
                         completado
                       </p>
                       <div className="h-1.5 w-full overflow-hidden rounded-full bg-[var(--secondary)]">

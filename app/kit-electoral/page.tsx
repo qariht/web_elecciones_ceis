@@ -1,6 +1,5 @@
 "use client"
 
-import type { CSSProperties } from "react"
 import { motion, MotionConfig } from "framer-motion"
 import {
   DownloadCloud,
@@ -25,18 +24,6 @@ import {
 } from "@/components/ui/card"
 import { cn } from "@/lib/utils"
 import { PageHeader } from "@/components/web/page-header"
-
-const BRAND_THEME = {
-  "--brand-navy": "#101F36",
-  "--brand-gold": "#C6A24B",
-  "--brand-gold-soft": "#FAEEC6",
-  "--background": "#FFFFFF",
-  "--foreground": "#12161D",
-  "--secondary": "#F5F7FA",
-  "--muted": "#F5F7FA",
-  "--muted-foreground": "#566275",
-  "--border": "#DCE2EA",
-} as CSSProperties
 
 interface DocumentoKit {
   codigo?: string
@@ -98,7 +85,7 @@ const DOCUMENTOS_KIT: DocumentoKit[] = [
 export default function KitElectoralPage() {
   return (
     <MotionConfig reducedMotion="user">
-      <div className="mx-auto w-full max-w-4xl py-10 px-4 sm:px-6 space-y-8" style={BRAND_THEME}>
+      <div className="mx-auto w-full max-w-4xl py-10 px-4 sm:px-6 space-y-8" >
 
         {/* Encabezado Principal */}
         <PageHeader
@@ -122,7 +109,7 @@ export default function KitElectoralPage() {
             <CardHeader className="p-6 sm:p-7 pb-4">
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                 <div className="flex items-start gap-4">
-                  <div className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-white/10 text-[var(--brand-gold)] ring-1 ring-white/15">
+                  <div className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-card/10 text-[var(--brand-gold)] ring-1 ring-card/15">
                     <FolderArchive className="size-6" />
                   </div>
                   <div>
@@ -130,7 +117,7 @@ export default function KitElectoralPage() {
                       <span className="font-mono text-xs font-semibold uppercase tracking-wider text-[var(--brand-gold)]">
                         Descarga Consolidada
                       </span>
-                      <Badge className="bg-white/10 text-white/90 border-white/20 text-[10px] px-2 py-0">
+                      <Badge className="bg-card/10 text-white/90 border-white/20 text-[10px] px-2 py-0">
                         .ZIP
                       </Badge>
                     </div>
@@ -174,7 +161,7 @@ export default function KitElectoralPage() {
         {/* Sección de Formatos Individuales */}
         <div className="space-y-4">
           <div className="flex items-center justify-between pb-1 border-b border-[var(--border)]">
-            <h2 className="text-base font-semibold text-[var(--brand-navy)] tracking-tight">
+            <h2 className="text-base font-semibold text-[var(--brand-ink)] tracking-tight">
               Formatos e Instrumentos Individuales
             </h2>
             <span className="text-xs text-[var(--muted-foreground)] font-mono">
@@ -190,16 +177,16 @@ export default function KitElectoralPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.25, delay: (idx + 1) * 0.05 }}
               >
-                <Card className="transition-all duration-200 border-[var(--border)] bg-white hover:border-[var(--brand-gold)] hover:shadow-sm">
+                <Card className="transition-all duration-200 border-[var(--border)] bg-card hover:border-[var(--brand-gold)] hover:shadow-sm">
                   <div className="p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
 
                     {/* Información del documento */}
                     <div className="flex items-start gap-3.5">
-                      <div className="flex size-10 shrink-0 items-center justify-center rounded-lg border border-[var(--border)] bg-[var(--secondary)] text-[var(--brand-navy)] mt-0.5">
+                      <div className="flex size-10 shrink-0 items-center justify-center rounded-lg border border-[var(--border)] bg-[var(--secondary)] text-[var(--brand-ink)] mt-0.5">
                         {doc.tipo === "DOCX" ? (
                           <FileSpreadsheet className="size-5 text-[var(--brand-gold)]" />
                         ) : (
-                          <FileText className="size-5 text-[var(--brand-navy)]" />
+                          <FileText className="size-5 text-[var(--brand-ink)]" />
                         )}
                       </div>
 
@@ -224,7 +211,7 @@ export default function KitElectoralPage() {
                           )}
                         </div>
 
-                        <h3 className="text-sm sm:text-base font-semibold text-[var(--brand-navy)] leading-snug">
+                        <h3 className="text-sm sm:text-base font-semibold text-[var(--brand-ink)] leading-snug">
                           {doc.titulo}
                         </h3>
 
@@ -244,7 +231,7 @@ export default function KitElectoralPage() {
 
                       variant="outline"
                       size="sm"
-                      className="border-[var(--border)] text-[var(--brand-navy)] hover:bg-[var(--secondary)] hover:border-[var(--brand-navy)] shrink-0 font-medium transition-colors w-full sm:w-auto"
+                      className="border-[var(--border)] text-[var(--brand-ink)] hover:bg-[var(--secondary)] hover:border-[var(--brand-navy)] shrink-0 font-medium transition-colors w-full sm:w-auto"
                     >
                       <a
                         href={doc.archivo}
@@ -263,10 +250,10 @@ export default function KitElectoralPage() {
         </div>
 
         {/* Nota de advertencia y seguridad jurídica (Mismo estilo que Cronograma) */}
-        <div className="mt-10 rounded-xl border border-[var(--border)] bg-[#F5F7FA] p-4 sm:p-5 flex items-start gap-3.5">
-          <ShieldCheck className="size-5 text-[var(--brand-navy)] shrink-0 mt-0.5" />
+        <div className="mt-10 rounded-xl border border-[var(--border)] bg-secondary p-4 sm:p-5 flex items-start gap-3.5">
+          <ShieldCheck className="size-5 text-[var(--brand-ink)] shrink-0 mt-0.5" />
           <div className="space-y-1 text-xs sm:text-sm text-[var(--muted-foreground)] leading-relaxed">
-            <p className="font-semibold text-[var(--brand-navy)]">
+            <p className="font-semibold text-[var(--brand-ink)]">
               Validez Reglamentaria de la Documentación
             </p>
             <p>

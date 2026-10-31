@@ -15,9 +15,9 @@ import type { FeatureItem, GuaranteeItem, FaseActiva, HeroMetric } from "./types
 
 export const FASE_ACTIVA: FaseActiva = {
   fase: "Etapa III",
-  titulo: "Publicación de lista preliminar",
-  vencimiento: "Lunes 26 de octubre de 2026",
-  href: "/lista-preliminar",
+  titulo: "Publicación de lista apta",
+  vencimiento: "Viernes 30 de octubre de 2026",
+  href: "/lista-apta",
 }
 
 /* -------------------------------------------------------------------------- */
@@ -34,11 +34,11 @@ export const FEATURES: FeatureItem[] = [
     icon: CalendarDays,
   },
   {
-    title: "Lista Preliminar",
+    title: "Lista apta",
     description:
-      "Consulta la lista preliminar presentada para el proceso CEIS 2027.",
-    href: "/lista-preliminar",
-    cta: "Ver lista preliminar",
+      "Conoce a los integrantes de Avanza Sistemas PRO, lista apta del proceso CEIS 2027.",
+    href: "/lista-apta",
+    cta: "Ver integrantes",
     icon: ListChecks,
   },
   {
@@ -86,11 +86,11 @@ export const HERO_METRICS: HeroMetric[] = [
   {
     icon: CalendarDays,
     label: "Etapa actual",
-    value: "Lista preliminar",
+    value: "Lista apta",
   },
   {
     label: "Fase actual",
-    value: "Publicación preliminar",
+    value: "Publicación de lista apta",
     pulse: true,
   },
 ]

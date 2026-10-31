@@ -10,6 +10,10 @@
   -webkit-text-fill-color: transparent;
 }
 
+:global(.dark) .gradientWords {
+  background-image: linear-gradient(105deg, #f1d48c 0%, #dfc478 38%, #b7cbed 78%, #edf2fa 100%);
+}
+
 .buttonEnter {
   animation: buttonAppear 4000ms ease-out both;
 }
@@ -23,11 +27,11 @@
   position: relative;
   width: clamp(78px, 20vw, 108px);
   height: var(--card-height);
-  border: 1px solid #dce2ea;
+  border: 1px solid var(--brand-border);
   border-radius: 12px;
-  background: #f4f6f9;
+  background: var(--secondary);
   box-shadow: 0 9px 18px rgba(16, 31, 54, 0.12), 0 2px 3px rgba(16, 31, 54, 0.1);
-  color: #101f36;
+  color: var(--brand-ink);
   font-family: var(--font-geist-mono), monospace;
   font-size: clamp(2.8rem, 9vw, 4rem);
   font-weight: 700;
@@ -41,7 +45,7 @@
   z-index: 5;
   inset: calc(50% - 1px) 0 auto;
   height: 2px;
-  background: #d0d6de;
+  background: var(--brand-border);
   box-shadow: 0 1px 2px rgba(16, 31, 54, 0.12);
   content: "";
 }
@@ -67,7 +71,7 @@
 .flipTop {
   top: 0;
   border-radius: 11px 11px 0 0;
-  background: #fff;
+  background: var(--card);
   transform-origin: center bottom;
 }
 
@@ -78,7 +82,7 @@
 .flipBottom {
   bottom: 0;
   border-radius: 0 0 11px 11px;
-  background: #f4f6f9;
+  background: var(--secondary);
   transform-origin: center top;
 }
 

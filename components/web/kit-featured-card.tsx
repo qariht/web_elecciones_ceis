@@ -23,7 +23,7 @@ export function KitFeaturedCard({ kit }: KitFeaturedCardProps) {
       <CardHeader className="p-6 sm:p-7 pb-4">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div className="flex items-start gap-4">
-            <div className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-white/10 text-brand-gold ring-1 ring-white/15">
+            <div className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-card/10 text-brand-gold ring-1 ring-card/15">
               <FolderArchive className="size-6" />
             </div>
             <div>
@@ -31,7 +31,7 @@ export function KitFeaturedCard({ kit }: KitFeaturedCardProps) {
                 <span className="font-mono text-xs font-semibold uppercase tracking-wider text-brand-gold">
                   Descarga Consolidada
                 </span>
-                <Badge className="bg-white/10 text-white/90 border-white/20 text-[10px] px-2 py-0">
+                <Badge className="bg-card/10 text-white/90 border-white/20 text-[10px] px-2 py-0">
                   .ZIP
                 </Badge>
               </div>
@@ -58,7 +58,7 @@ export function KitFeaturedCard({ kit }: KitFeaturedCardProps) {
 
         <Button
           size="lg"
-          className="h-11 bg-brand-gold text-brand-navy hover:bg-brand-gold/90 font-semibold shadow-sm transition-transform active:scale-[0.98]"
+          className="h-11 bg-brand-gold text-[var(--brand-ink)] hover:bg-brand-gold/90 font-semibold shadow-sm transition-transform active:scale-[0.98]"
         >
           <a href={kit.archivo} download>
             <DownloadCloud className="size-4 mr-2 stroke-[2.5]" />

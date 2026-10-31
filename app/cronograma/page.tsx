@@ -1,6 +1,6 @@
 "use client"
 
-import { MouseEvent, useMemo, useRef, type CSSProperties } from "react"
+import { MouseEvent, useMemo, useRef } from "react"
 import { motion, MotionConfig, useMotionValue, useReducedMotion, useSpring } from "framer-motion"
 import {
   CalendarDays,
@@ -26,18 +26,6 @@ import { calcularEstado } from "@/lib/formaters"
 import { PageHeader } from "@/components/web/page-header"
 import { GRID_HERO } from "@/data/inscripcion"
 
-const BRAND_THEME = {
-  "--brand-navy": "#101F36",
-  "--brand-gold": "#C6A24B",
-  "--brand-gold-soft": "#FAEEC6",
-  "--background": "#FFFFFF",
-  "--foreground": "#12161D",
-  "--secondary": "#F5F7FA",
-  "--muted": "#F5F7FA",
-  "--muted-foreground": "#566275",
-  "--border": "#DCE2EA",
-} as CSSProperties
-
 export default function CronogramaPage() {
   const fechaActual = useMemo(() => new Date(), [])
 
@@ -58,7 +46,7 @@ export default function CronogramaPage() {
   return (
     <MotionConfig reducedMotion="user">
       <div className="mx-auto w-full max-w-4xl py-10 px-4 sm:px-6"
-        style={BRAND_THEME}
+        
         onMouseMove={handleMouseMove}>
 
         {/* Fondo grilla*/}
@@ -82,7 +70,7 @@ export default function CronogramaPage() {
             href="/documentos/cronograma-electoral-actualizado-28-oct-2026.png"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex min-h-10 items-center rounded-lg border border-[var(--brand-gold)] bg-white px-4 text-sm font-semibold text-[var(--brand-navy)] transition-colors hover:bg-[var(--brand-gold-soft)]"
+            className="inline-flex min-h-10 items-center rounded-lg border border-[var(--brand-gold)] bg-card px-4 text-sm font-semibold text-[var(--brand-ink)] transition-colors hover:bg-[var(--brand-gold-soft)]"
           >
             Ver documento oficial del cronograma (28 oct.)
           </a>
@@ -108,7 +96,7 @@ export default function CronogramaPage() {
                   {/* Nodo circular */}
                   <div className="relative z-10 flex size-9 shrink-0 items-center justify-center rounded-full transition-all">
                     {isCompleted && (
-                      <div className="flex size-9 items-center justify-center rounded-full bg-[var(--brand-navy)] text-white shadow-sm ring-4 ring-white">
+                      <div className="flex size-9 items-center justify-center rounded-full bg-[var(--brand-navy)] text-white shadow-sm ring-4 ring-card">
                         <Check className="size-4 stroke-[3]" />
                       </div>
                     )}
@@ -121,7 +109,7 @@ export default function CronogramaPage() {
                     )}
 
                     {!isCompleted && !isActive && (
-                      <div className="flex size-9 items-center justify-center rounded-full border-2 border-[var(--border)] bg-white text-[var(--muted-foreground)] ring-4 ring-white">
+                      <div className="flex size-9 items-center justify-center rounded-full border-2 border-[var(--border)] bg-card text-[var(--muted-foreground)] ring-4 ring-card">
                         <Hourglass className="size-3.5 opacity-60" />
                       </div>
                     )}
@@ -153,10 +141,10 @@ export default function CronogramaPage() {
                     className={cn(
                       "transition-all shadow-none border",
                       isActive
-                        ? "border-[var(--brand-gold)] bg-white ring-2 ring-[var(--brand-gold)]/20 shadow-md"
+                        ? "border-[var(--brand-gold)] bg-card ring-2 ring-[var(--brand-gold)]/20 shadow-md"
                         : isCompleted
-                          ? "border-[var(--border)] bg-white/70"
-                          : "border-[var(--border)] bg-white opacity-85 hover:opacity-100"
+                          ? "border-[var(--border)] bg-card/70"
+                          : "border-[var(--border)] bg-card opacity-85 hover:opacity-100"
                     )}
                   >
                     <CardHeader className="p-4 sm:p-5 pb-2 sm:pb-3">
@@ -176,7 +164,7 @@ export default function CronogramaPage() {
                         {isCompleted && (
                           <Badge
                             variant="secondary"
-                            className="bg-[#F5F7FA] text-[var(--muted-foreground)] border border-[var(--border)] gap-1 px-2.5 py-0.5 font-medium"
+                            className="bg-secondary text-[var(--muted-foreground)] border border-[var(--border)] gap-1 px-2.5 py-0.5 font-medium"
                           >
                             <Check className="size-3 text-emerald-600 stroke-[3]" />
                             Finalizado
@@ -184,7 +172,7 @@ export default function CronogramaPage() {
                         )}
                         {isActive && (
                           <Badge
-                            className="bg-[var(--brand-gold-soft)] text-[var(--brand-navy)] border border-[var(--brand-gold)]/50 gap-1.5 px-2.5 py-0.5 font-semibold animate-pulse"
+                            className="bg-[var(--brand-gold-soft)] text-[var(--brand-ink)] border border-[var(--brand-gold)]/50 gap-1.5 px-2.5 py-0.5 font-semibold animate-pulse"
                           >
                             <span className="size-1.5 rounded-full bg-[var(--brand-navy)]" />
                             En curso
@@ -201,7 +189,7 @@ export default function CronogramaPage() {
                         )}
                       </div>
 
-                      <CardTitle className="text-base sm:text-lg font-semibold text-[var(--brand-navy)] mt-1">
+                      <CardTitle className="text-base sm:text-lg font-semibold text-[var(--brand-ink)] mt-1">
                         {etapa.titulo}
                       </CardTitle>
 
@@ -215,10 +203,10 @@ export default function CronogramaPage() {
                       <p className="leading-relaxed">{etapa.detalle}</p>
                       <p className="flex gap-2 items-start text-xs leading-relaxed">
                         <MapPin className="size-3.5 shrink-0 mt-0.5 text-[var(--brand-gold)]" />
-                        <span><span className="font-semibold text-[var(--brand-navy)]">Lugar o publicación:</span> {etapa.lugar}</span>
+                        <span><span className="font-semibold text-[var(--brand-ink)]">Lugar o publicación:</span> {etapa.lugar}</span>
                       </p>
                       {etapa.nota && (
-                        <p className="flex gap-2.5 items-center text-xs font-medium text-[var(--brand-navy)] bg-[var(--brand-gold-soft)]/50 p-2 rounded border border-[var(--brand-gold)]/30">
+                        <p className="flex gap-2.5 items-center text-xs font-medium text-[var(--brand-ink)] bg-[var(--brand-gold-soft)]/50 p-2 rounded border border-[var(--brand-gold)]/30">
                           <AlertCircleIcon /> {etapa.nota}
                         </p>
                       )}
@@ -230,10 +218,10 @@ export default function CronogramaPage() {
           })}
         </div>
 
-        <div className="mt-12 rounded-xl border border-[var(--border)] bg-[#F5F7FA] p-4 sm:p-5 flex items-start gap-3.5">
-          <ShieldCheck className="size-5 text-[var(--brand-navy)] shrink-0 mt-0.5" />
+        <div className="mt-12 rounded-xl border border-[var(--border)] bg-secondary p-4 sm:p-5 flex items-start gap-3.5">
+          <ShieldCheck className="size-5 text-[var(--brand-ink)] shrink-0 mt-0.5" />
           <div className="space-y-1 text-xs sm:text-sm text-[var(--muted-foreground)] leading-relaxed">
-            <p className="font-semibold text-[var(--brand-navy)]">
+            <p className="font-semibold text-[var(--brand-ink)]">
               Fecha del acto de sufragio
             </p>
             <p>

@@ -11,10 +11,10 @@ import type { NavDropdownItem, FooterLink } from "./types"
 
 export const NAV_PROCESO_ITEMS: NavDropdownItem[] = [
   {
-    href: "/lista-preliminar",
+    href: "/lista-apta",
     icon: ListChecks,
-    title: "Lista preliminar",
-    description: "Conoce la lista publicada para el proceso CEIS 2027.",
+    title: "Lista apta",
+    description: "Conoce a los integrantes de Avanza Sistemas PRO.",
   },
   {
     href: "/cronograma",
@@ -29,7 +29,7 @@ export const NAV_PROCESO_ITEMS: NavDropdownItem[] = [
 /* -------------------------------------------------------------------------- */
 
 export const FOOTER_LINKS: FooterLink[] = [
-  { href: "/lista-preliminar", label: "Lista preliminar" },
+  { href: "/lista-apta", label: "Integrantes de la lista apta" },
   { href: "/cronograma", label: "Cronograma" },
   { href: "/comunicados", label: "Resoluciones" },
 ]

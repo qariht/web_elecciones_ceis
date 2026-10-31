@@ -26,10 +26,10 @@ export function EtapaCard({ etapa, estado }: EtapaCardProps) {
       className={cn(
         "transition-all shadow-none border",
         isActive
-          ? "border-brand-gold bg-white ring-2 ring-brand-gold/20 shadow-md"
+          ? "border-brand-gold bg-card ring-2 ring-brand-gold/20 shadow-md"
           : isCompleted
-            ? "border-brand-border bg-white/70"
-            : "border-brand-border bg-white opacity-85 hover:opacity-100"
+            ? "border-brand-border bg-card/70"
+            : "border-brand-border bg-card opacity-85 hover:opacity-100"
       )}
     >
       <CardHeader className="p-4 sm:p-5 pb-2 sm:pb-3">
@@ -51,7 +51,7 @@ export function EtapaCard({ etapa, estado }: EtapaCardProps) {
           <StatusBadge estado={estado} />
         </div>
 
-        <CardTitle className="text-base sm:text-lg font-semibold text-brand-navy mt-1">
+        <CardTitle className="text-base sm:text-lg font-semibold text-[var(--brand-ink)] mt-1">
           {etapa.titulo}
         </CardTitle>
 
@@ -64,7 +64,7 @@ export function EtapaCard({ etapa, estado }: EtapaCardProps) {
       <CardContent className="p-4 sm:p-5 pt-0 text-sm text-brand-muted-fg space-y-2">
         <p className="leading-relaxed">{etapa.detalle}</p>
         {etapa.nota && (
-          <p className="flex gap-2.5 items-center text-xs font-medium text-brand-navy bg-brand-gold-soft/50 p-2 rounded border border-brand-gold/30">
+          <p className="flex gap-2.5 items-center text-xs font-medium text-[var(--brand-ink)] bg-brand-gold-soft/50 p-2 rounded border border-brand-gold/30">
             <AlertCircleIcon />
             {etapa.nota}
           </p>

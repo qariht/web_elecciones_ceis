@@ -10,15 +10,15 @@ interface DocumentCardProps {
 
 export function DocumentCard({ doc }: DocumentCardProps) {
   return (
-    <Card className="transition-all duration-200 border-brand-border bg-white hover:border-brand-gold hover:shadow-sm">
+    <Card className="transition-all duration-200 border-brand-border bg-card hover:border-brand-gold hover:shadow-sm">
       <div className="p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         {/* Información del documento */}
         <div className="flex items-start gap-3.5">
-          <div className="flex size-10 shrink-0 items-center justify-center rounded-lg border border-brand-border bg-brand-secondary text-brand-navy mt-0.5">
+          <div className="flex size-10 shrink-0 items-center justify-center rounded-lg border border-brand-border bg-brand-secondary text-[var(--brand-ink)] mt-0.5">
             {doc.tipo === "DOCX" ? (
               <FileSpreadsheet className="size-5 text-brand-gold" />
             ) : (
-              <FileText className="size-5 text-brand-navy" />
+              <FileText className="size-5 text-[var(--brand-ink)]" />
             )}
           </div>
 
@@ -45,7 +45,7 @@ export function DocumentCard({ doc }: DocumentCardProps) {
               )}
             </div>
 
-            <h3 className="text-sm sm:text-base font-semibold text-brand-navy leading-snug">
+            <h3 className="text-sm sm:text-base font-semibold text-[var(--brand-ink)] leading-snug">
               {doc.titulo}
             </h3>
 
@@ -63,7 +63,7 @@ export function DocumentCard({ doc }: DocumentCardProps) {
         <Button
           variant="outline"
           size="sm"
-          className="border-brand-border text-brand-navy hover:bg-brand-secondary hover:border-brand-navy shrink-0 gap-1.5 font-medium transition-colors w-full sm:w-auto"
+          className="border-brand-border text-[var(--brand-ink)] hover:bg-brand-secondary hover:border-brand-navy shrink-0 gap-1.5 font-medium transition-colors w-full sm:w-auto"
         >
           <a href={doc.archivo} download target="_blank" rel="noopener noreferrer">
             <ArrowDownToLine className="size-3.5" />

@@ -1,6 +1,5 @@
 "use client"
 
-import type { CSSProperties } from "react"
 import { motion, MotionConfig } from "framer-motion"
 import {
   CalendarDays,
@@ -22,18 +21,6 @@ import {
 } from "@/components/ui/card"
 import { PageHeader } from "@/components/web/page-header"
 
-const BRAND_THEME = {
-  "--brand-navy": "#101F36",
-  "--brand-gold": "#C6A24B",
-  "--brand-gold-soft": "#FAEEC6",
-  "--background": "#FFFFFF",
-  "--foreground": "#12161D",
-  "--secondary": "#F5F7FA",
-  "--muted": "#F5F7FA",
-  "--muted-foreground": "#566275",
-  "--border": "#DCE2EA",
-} as CSSProperties
-
 interface Publicacion {
   id: string
   tipo: "Resolución" | "Comunicado" | "Aviso"
@@ -46,6 +33,16 @@ interface Publicacion {
 }
 
 const PUBLICACIONES: Publicacion[] = [
+  {
+    id: "publicacion-lista-apta-30-oct",
+    tipo: "Comunicado",
+    numero: "LISTA APTA · 30 OCT.",
+    fecha: "30 de octubre de 2026",
+    titulo: "Publicación de la lista apta",
+    resumen:
+      "El Comité Electoral publica el documento oficial de la lista apta de candidatos para las Elecciones CEIS 2027. Consulta el archivo adjunto para conocer la publicación completa.",
+    archivoUrl: "/documentos/publicacion-lista-apta-elecciones-ceis-2027.pdf",
+  },
   {
     id: "modificacion-cronograma-28-oct",
     tipo: "Comunicado",
@@ -72,7 +69,7 @@ export default function ComunicadosPage() {
     <MotionConfig reducedMotion="user">
       <div
         className="mx-auto w-full max-w-4xl py-10 px-4 sm:px-6 space-y-8"
-        style={BRAND_THEME}
+        
       >
         {/* Encabezado Oficial */}
         <PageHeader
@@ -95,14 +92,14 @@ export default function ComunicadosPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.25, delay: idx * 0.08 }}
               >
-                <Card className="transition-all duration-200 border-[var(--border)] bg-white hover:border-[var(--brand-gold)] shadow-none hover:shadow-sm">
+                <Card className="transition-all duration-200 border-[var(--border)] bg-card hover:border-[var(--brand-gold)] shadow-none hover:shadow-sm">
                   <CardHeader className="p-5 sm:p-6 pb-3">
                     {/* Metadatos superiores: Número de resolución/comunicado y Fecha */}
                     <div className="flex flex-wrap items-center justify-between gap-2.5 mb-2">
                       <div className="flex items-center gap-2">
                         <Badge
                           variant="secondary"
-                          className="gap-1.5 px-2.5 py-0.5 font-mono text-[11px] font-semibold tracking-wide bg-[var(--secondary)] text-[var(--brand-navy)] border border-[var(--border)]"
+                          className="gap-1.5 px-2.5 py-0.5 font-mono text-[11px] font-semibold tracking-wide bg-[var(--secondary)] text-[var(--brand-ink)] border border-[var(--border)]"
                         >
                           <Tag className="size-3 text-[var(--brand-gold)]" />
                           {item.numero}
@@ -112,7 +109,7 @@ export default function ComunicadosPage() {
                           className={
                             isResolucion
                               ? "bg-[var(--brand-navy)] text-white text-[10px] font-medium border-transparent"
-                              : "bg-[var(--brand-gold-soft)] text-[var(--brand-navy)] border-[var(--brand-gold)]/50 text-[10px] font-medium"
+                              : "bg-[var(--brand-gold-soft)] text-[var(--brand-ink)] border-[var(--brand-gold)]/50 text-[10px] font-medium"
                           }
                         >
                           {isResolucion ? (
@@ -136,7 +133,7 @@ export default function ComunicadosPage() {
                     </div>
 
                     {/* Título de la publicación */}
-                    <CardTitle className="text-lg sm:text-xl font-semibold text-[var(--brand-navy)] leading-snug tracking-tight">
+                    <CardTitle className="text-lg sm:text-xl font-semibold text-[var(--brand-ink)] leading-snug tracking-tight">
                       {item.titulo}
                     </CardTitle>
                   </CardHeader>
@@ -169,7 +166,7 @@ export default function ComunicadosPage() {
                           href={item.archivoUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex min-h-9 w-full items-center justify-center gap-2 rounded-md border border-[var(--border)] px-3 text-sm font-medium text-[var(--brand-navy)] transition-colors hover:border-[var(--brand-navy)] hover:bg-[var(--secondary)] sm:w-auto"
+                          className="inline-flex min-h-9 w-full items-center justify-center gap-2 rounded-md border border-[var(--border)] px-3 text-sm font-medium text-[var(--brand-ink)] transition-colors hover:border-[var(--brand-navy)] hover:bg-[var(--secondary)] sm:w-auto"
                         >
                           <FileText className="size-3.5 text-[var(--brand-gold)]" />
                           <span>Ver comunicado oficial (PDF)</span>
@@ -185,9 +182,9 @@ export default function ComunicadosPage() {
 
         {/* Panel de Fe Pública y Notificación Legal */}
         <div className="mt-12 rounded-xl border border-[var(--border)] bg-[var(--secondary)] p-4 sm:p-5 flex items-start gap-3.5">
-          <ShieldCheck className="size-5 text-[var(--brand-navy)] shrink-0 mt-0.5" />
+          <ShieldCheck className="size-5 text-[var(--brand-ink)] shrink-0 mt-0.5" />
           <div className="space-y-1 text-xs sm:text-sm text-[var(--muted-foreground)] leading-relaxed">
-            <p className="font-semibold text-[var(--brand-navy)]">
+            <p className="font-semibold text-[var(--brand-ink)]">
               Efectos de Notificación y Validez Publicitaria
             </p>
             <p>

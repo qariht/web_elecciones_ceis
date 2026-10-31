@@ -39,7 +39,7 @@ export function PageHeader({
             </div>
           )}
 
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-brand-navy leading-tight">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-[var(--brand-ink)] leading-tight">
             {title}
           </h1>
 
