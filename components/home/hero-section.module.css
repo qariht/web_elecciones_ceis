@@ -1,3 +1,59 @@
+.hero {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  justify-items: center;
+  align-items: center;
+  min-height: calc(100svh - 4rem);
+  row-gap: clamp(20px, 3svh, 30px);
+  padding-block: clamp(16px, 2.5svh, 28px);
+}
+
+/* Reserve space even when the central content wraps on narrow screens. */
+.binaryHeading,
+.binaryYear {
+  width: 100%;
+  max-width: 1120px;
+  pointer-events: none;
+}
+
+.binaryHeading {
+  height: clamp(104px, 9vw, 132px);
+}
+
+.binaryYear {
+  height: clamp(80px, 7.5vw, 108px);
+}
+
+@media (min-width: 640px) and (max-height: 800px) {
+  .hero {
+    row-gap: 20px;
+    padding-block: 16px;
+  }
+
+  .binaryHeading {
+    height: 96px;
+  }
+
+  .binaryYear {
+    height: 80px;
+  }
+
+  .hero [data-binary-content] img {
+    width: clamp(136px, 22svh, 176px);
+    height: clamp(136px, 22svh, 176px);
+  }
+}
+
+@media (max-width: 639px) {
+  .binaryHeading {
+    height: 136px;
+  }
+
+  .binaryYear {
+    height: 88px;
+  }
+}
+
 .headingEnter {
   animation: headingReveal 4000ms cubic-bezier(0.45, 0.05, 0.55, 0.95) 120ms both;
 }

@@ -6,7 +6,7 @@ import styles from "./hero-section.module.css"
 
 export function HeroSection() {
   return (
-    <section className="relative flex min-h-[calc(100svh-4rem)] items-center justify-center overflow-hidden bg-background px-4 py-16 text-center sm:px-6">
+    <section className={`${styles.hero} relative isolate overflow-hidden bg-background px-4 text-center sm:px-6`}>
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,var(--hero-grid)_1px,transparent_1px),linear-gradient(to_bottom,var(--hero-grid)_1px,transparent_1px)] bg-[size:32px_32px] [mask-image:radial-gradient(ellipse_70%_65%_at_50%_50%,#000_65%,transparent_100%)]"
@@ -16,7 +16,9 @@ export function HeroSection() {
         <BinaryParticleBackground />
       </div>
 
-      <div className="relative z-10 flex w-full max-w-4xl flex-col items-center">
+      <div data-binary-slot="heading" className={styles.binaryHeading} aria-hidden="true" />
+
+      <div data-binary-content className="relative z-10 flex w-full max-w-4xl flex-col items-center">
         <p className={`${styles.headingEnter} text-sm font-semibold uppercase tracking-[0.18em] text-[var(--brand-gold)] sm:text-base`}>
           Presentamos a la lista apta
         </p>
@@ -35,6 +37,7 @@ export function HeroSection() {
         </div>
         <ReleaseAction />
       </div>
+      <div data-binary-slot="year" className={styles.binaryYear} aria-hidden="true" />
     </section>
   )
 }

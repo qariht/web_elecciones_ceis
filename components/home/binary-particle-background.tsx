@@ -7,136 +7,174 @@ type Particle = {
   scatterY: number
   targetX: number
   targetY: number
-  glyph: "0" | "1"
+  bit: number
   phase: number
 }
+
+const MONOSPACE = "ui-monospace, SFMono-Regular, Menlo, monospace"
+const GATHER_DURATION = 24000
+const READABLE_HOLD = 16000
+const DISPERSE_DURATION = 24000
+const SCATTERED_HOLD = 5000
+const CYCLE_DURATION = GATHER_DURATION + READABLE_HOLD + DISPERSE_DURATION + SCATTERED_HOLD
+const smoothstep = (value: number) => value * value * (3 - 2 * value)
 
 export function BinaryParticleBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
   useEffect(() => {
     const canvas = canvasRef.current
-    if (!canvas) return
+    const context = canvas?.getContext("2d")
+    const hero = canvas?.closest("section")
+    const headingSlot = hero?.querySelector<HTMLElement>('[data-binary-slot="heading"]')
+    const yearSlot = hero?.querySelector<HTMLElement>('[data-binary-slot="year"]')
+    const content = hero?.querySelector<HTMLElement>("[data-binary-content]")
+    if (!canvas || !context || !hero || !headingSlot || !yearSlot || !content) return
 
-    const context = canvas.getContext("2d")
-    if (!context) return
-
+    const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)")
     let animationFrame = 0
     let particles: Particle[] = []
     let width = 0
     let height = 0
+    let glyphSize = 8
     let startedAt: number | null = null
+    let lastFrame = -Infinity
+    let layoutKey = ""
+    let exclusion = { x: 0, y: 0, width: 0, height: 0 }
 
-    const createTargets = () => {
+    const resize = () => {
+      const rect = canvas.getBoundingClientRect()
+      const heading = headingSlot.getBoundingClientRect()
+      const year = yearSlot.getBoundingClientRect()
+      const contentRect = content.getBoundingClientRect()
+      const nextKey = [rect.width, rect.height, heading.width, heading.height, heading.top - rect.top,
+        year.top - rect.top, year.height, contentRect.top - rect.top, contentRect.width, contentRect.height].join(",")
+      if (nextKey === layoutKey) return
+      layoutKey = nextKey
+
+      width = Math.max(1, Math.floor(rect.width))
+      height = Math.max(1, Math.floor(rect.height))
+      const compact = width < 640
+      const step = compact ? 4 : width < 1024 ? 5 : 6
+      // Keep individual digits separated instead of overlapping into a solid fill.
+      glyphSize = compact ? 5 : width < 1024 ? 6 : 7
+      const pixelRatio = Math.min(window.devicePixelRatio || 1, 2)
+      canvas.width = Math.round(width * pixelRatio)
+      canvas.height = Math.round(height * pixelRatio)
+      context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0)
+      exclusion = {
+        x: contentRect.left - rect.left - 16,
+        y: contentRect.top - rect.top - 16,
+        width: contentRect.width + 32,
+        height: contentRect.height + 32,
+      }
+
       const source = document.createElement("canvas")
       source.width = width
       source.height = height
       const sourceContext = source.getContext("2d")
-      if (!sourceContext) return []
-
-      const compact = width < 900
+      if (!sourceContext) return
       sourceContext.fillStyle = "#000"
       sourceContext.textAlign = "center"
-      sourceContext.font = `800 ${compact ? 82 : 112}px ui-monospace, SFMono-Regular, Menlo, monospace`
-      const headingScale = Math.min(1, (width * 0.92) / sourceContext.measureText("ELECCIONES CEIS").width)
-      sourceContext.save()
-      sourceContext.translate(width / 2, 0)
-      sourceContext.scale(headingScale, 1)
-      sourceContext.fillText("ELECCIONES CEIS", 0, height * 0.18)
-      sourceContext.restore()
-      sourceContext.font = `900 ${compact ? 110 : 150}px ui-monospace, SFMono-Regular, Menlo, monospace`
-      sourceContext.fillText("2027", width / 2, height * 0.81)
+      sourceContext.textBaseline = "middle"
 
-      const image = sourceContext.getImageData(0, 0, width, height).data
-      const targets: { x: number; y: number }[] = []
-      const step = compact ? 4 : 5
-      for (let y = 0; y < height; y += step) {
-        for (let x = 0; x < width; x += step) {
-          if (image[(y * width + x) * 4 + 3] > 80) targets.push({ x, y })
+      const paintLines = (slot: DOMRect, lines: string[], maxFontSize: number) => {
+        const lineHeight = slot.height / lines.length
+        const availableWidth = Math.max(1, slot.width - 24)
+        let fontSize = Math.min(maxFontSize, lineHeight * 0.9)
+        sourceContext.font = `900 ${fontSize}px Arial, sans-serif`
+        const textWidth = Math.max(...lines.map(line => sourceContext.measureText(line).width))
+        fontSize *= Math.min(1, availableWidth / textWidth)
+        sourceContext.font = `900 ${fontSize}px Arial, sans-serif`
+        lines.forEach((line, index) => {
+          sourceContext.fillText(line, slot.left - rect.left + slot.width / 2,
+            slot.top - rect.top + lineHeight * (index + 0.5))
+        })
+      }
+
+      // Measure reserved rows rather than guessing positions from canvas height.
+      paintLines(heading, compact ? ["ELECCIONES", "CEIS"] : ["ELECCIONES CEIS"], compact ? 60 : 124)
+      paintLines(year, ["2027"], compact ? 104 : 152)
+
+      const pixels = sourceContext.getImageData(0, 0, width, height).data
+      const nextParticles: Particle[] = []
+      for (let y = step; y < height - step; y += step) {
+        for (let x = step; x < width - step; x += step) {
+          if (pixels[(y * width + x) * 4 + 3] < 128) continue
+          nextParticles.push({
+            scatterX: glyphSize + Math.random() * (width - glyphSize * 2),
+            scatterY: glyphSize + Math.random() * (height - glyphSize * 2),
+            targetX: x,
+            targetY: y,
+            bit: nextParticles.length % 2,
+            phase: Math.random() * Math.PI * 2,
+          })
         }
       }
-      return targets
-    }
-
-    const resize = () => {
-      const rect = canvas.getBoundingClientRect()
-      const nextWidth = Math.max(1, Math.floor(rect.width))
-      const nextHeight = Math.max(1, Math.floor(rect.height))
-      if (nextWidth === width && nextHeight === height && particles.length > 0) return
-
-      width = nextWidth
-      height = nextHeight
-      const pixelRatio = Math.min(window.devicePixelRatio || 1, 2)
-      canvas.width = width * pixelRatio
-      canvas.height = height * pixelRatio
-      context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0)
-
-      const targets = createTargets()
-      startedAt = null
-      particles = targets.map((target, index) => ({
-        scatterX: Math.random() * width,
-        scatterY: Math.random() * height,
-        targetX: target.x,
-        targetY: target.y,
-        glyph: index % 2 === 0 ? "0" : "1",
-        phase: Math.random() * Math.PI * 2,
-      }))
+      // Preserve the cycle on resize and when fonts finish loading.
+      particles = nextParticles
     }
 
     const draw = (time: number) => {
+      animationFrame = requestAnimationFrame(draw)
+      if (document.hidden || time - lastFrame < 1000 / 30) return
+      lastFrame = time
+      if (startedAt === null) startedAt = time
+      const elapsed = time - startedAt
+      const cycle = elapsed % CYCLE_DURATION
+      let scatterRatio: number
+      if (motionPreference.matches) {
+        scatterRatio = 0
+      } else if (cycle < GATHER_DURATION) {
+        scatterRatio = 1 - smoothstep(cycle / GATHER_DURATION)
+      } else if (cycle < GATHER_DURATION + READABLE_HOLD) {
+        scatterRatio = 0
+      } else if (cycle < GATHER_DURATION + READABLE_HOLD + DISPERSE_DURATION) {
+        scatterRatio = smoothstep((cycle - GATHER_DURATION - READABLE_HOLD) / DISPERSE_DURATION)
+      } else {
+        scatterRatio = 1
+      }
+
       context.clearRect(0, 0, width, height)
-      context.font = "10px ui-monospace, SFMono-Regular, Menlo, monospace"
+      context.save()
+      // Keep drifting digits clear of the title, logo and actions too.
+      context.beginPath()
+      context.rect(0, 0, width, height)
+      context.rect(exclusion.x, exclusion.y, exclusion.width, exclusion.height)
+      context.clip("evenodd")
+      context.font = `500 ${glyphSize}px ${MONOSPACE}`
       context.textAlign = "center"
       context.textBaseline = "middle"
-      if (startedAt === null) startedAt = time
-
-      const elapsed = time - startedAt
-      const formationDuration = 20000
-      const formation = Math.min(elapsed / formationDuration, 1)
-      const formedProgress = formation * formation * (3 - 2 * formation)
-      const readableHold = 5000
-      const transitionDuration = 18000
-      const scatteredHold = 4000
-      const cycleDuration = readableHold + transitionDuration * 2 + scatteredHold
-      const cycleElapsed = formation === 1 ? (elapsed - formationDuration) % cycleDuration : 0
-      let scatterRatio = 1 - formedProgress
-
-      if (formation === 1 && cycleElapsed > readableHold && cycleElapsed <= readableHold + transitionDuration) {
-        const progress = (cycleElapsed - readableHold) / transitionDuration
-        scatterRatio = progress * progress * (3 - 2 * progress)
-      } else if (formation === 1 && cycleElapsed > readableHold + transitionDuration + scatteredHold) {
-        const progress = (cycleElapsed - readableHold - transitionDuration - scatteredHold) / transitionDuration
-        const easedProgress = progress * progress * (3 - 2 * progress)
-        scatterRatio = 1 - easedProgress
-      } else if (formation === 1 && cycleElapsed > readableHold + transitionDuration) {
-        scatterRatio = 1
-      } else if (formation === 1) {
-        scatterRatio = 0
-      }
-
       const dark = document.documentElement.classList.contains("dark")
+
       for (const particle of particles) {
-        const x = particle.targetX * (1 - scatterRatio) + particle.scatterX * scatterRatio
-        const y = particle.targetY * (1 - scatterRatio) + particle.scatterY * scatterRatio
-        const formedOpacity = 1 - scatterRatio
-        const pulse = 0.12 + formedOpacity * 0.4 + (Math.sin(time / 2600 + particle.phase) + 1) * 0.025
-        context.fillStyle = particle.glyph === "0"
-          ? dark ? `rgba(237, 242, 250, ${pulse})` : `rgba(16, 31, 54, ${pulse})`
-          : dark ? `rgba(223, 196, 120, ${pulse})` : `rgba(198, 162, 75, ${pulse})`
-        context.fillText(particle.glyph, x, y)
+        const x = particle.targetX + (particle.scatterX - particle.targetX) * scatterRatio
+        const y = particle.targetY + (particle.scatterY - particle.targetY) * scatterRatio
+        const drift = motionPreference.matches ? 0 : Math.sin(elapsed / 6000 + particle.phase) * 5 * scatterRatio
+        const glyph = particle.bit === 0 ? "0" : "1"
+        context.fillStyle = particle.bit === 0
+          ? dark ? "#EDF2FA" : "#101F36"
+          : dark ? "#DFC478" : "#947024"
+        context.globalAlpha = 0.12 + (1 - scatterRatio) * 0.68
+        context.fillText(glyph, x, y + drift)
       }
-      animationFrame = requestAnimationFrame(draw)
+      context.restore()
     }
 
     resize()
     animationFrame = requestAnimationFrame(draw)
     const observer = new ResizeObserver(resize)
-    observer.observe(canvas)
+    observer.observe(hero)
+    observer.observe(headingSlot)
+    observer.observe(yearSlot)
+    observer.observe(content)
+    document.fonts.addEventListener("loadingdone", resize)
     return () => {
       cancelAnimationFrame(animationFrame)
       observer.disconnect()
+      document.fonts.removeEventListener("loadingdone", resize)
     }
   }, [])
 
-  return <canvas ref={canvasRef} className="absolute inset-0 size-full" aria-hidden />
+  return <canvas ref={canvasRef} className="absolute inset-0 size-full" aria-hidden="true" />
 }
