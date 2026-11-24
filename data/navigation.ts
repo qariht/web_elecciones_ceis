@@ -1,5 +1,7 @@
 import {
   Calendar,
+  Search,
+  Users,
   ListChecks,
 } from "lucide-react"
 
@@ -10,6 +12,8 @@ import type { NavDropdownItem, FooterLink } from "./types"
 /* -------------------------------------------------------------------------- */
 
 export const NAV_PROCESO_ITEMS: NavDropdownItem[] = [
+  { href: "/padron", icon: Search, title: "Padrón electoral", description: "Consulta tu mesa de votación." },
+  { href: "/padron#miembros", icon: Users, title: "Miembros de mesa", description: "Revisa los cargos de las dos mesas." },
   {
     href: "/lista-apta",
     icon: ListChecks,

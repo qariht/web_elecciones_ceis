@@ -1,0 +1,38 @@
+.mesa[data-mesa="1"] {
+  --mesa-texto: #24415a;
+  --mesa-titulares: #e8eff5;
+  --mesa-suplentes: #d7e3ed;
+}
+
+.mesa[data-mesa="2"] {
+  --mesa-texto: #574427;
+  --mesa-titulares: #f3ede1;
+  --mesa-suplentes: #e8ddc8;
+}
+
+:global(.dark) .mesa[data-mesa="1"] {
+  --mesa-texto: #d1e3f3;
+  --mesa-titulares: #213346;
+  --mesa-suplentes: #2b4258;
+}
+
+:global(.dark) .mesa[data-mesa="2"] {
+  --mesa-texto: #f1dfb8;
+  --mesa-titulares: #352e23;
+  --mesa-suplentes: #463a28;
+}
+
+.insignia {
+  background: var(--mesa-titulares);
+  color: var(--mesa-texto);
+}
+
+.grupo {
+  border: 1px solid color-mix(in srgb, var(--mesa-texto) 20%, transparent);
+  background: var(--mesa-titulares);
+  color: var(--mesa-texto);
+}
+
+.suplentes {
+  background: var(--mesa-suplentes);
+}

@@ -1,7 +1,7 @@
-import Image from "next/image"
+import Link from "next/link"
+import { Search, Users } from "lucide-react"
+import { buttonVariants } from "@/components/ui/button"
 import { BinaryParticleBackground } from "@/components/home/binary-particle-background"
-import { ReleaseAction } from "@/components/home/release-action"
-import { LISTA_APTA } from "@/data/lista-apta"
 import styles from "./hero-section.module.css"
 
 export function HeroSection() {
@@ -20,22 +20,16 @@ export function HeroSection() {
 
       <div data-binary-content className="relative z-10 flex w-full max-w-4xl flex-col items-center">
         <p className={`${styles.headingEnter} text-sm font-semibold uppercase tracking-[0.18em] text-[var(--brand-gold)] sm:text-base`}>
-          Presentamos a la lista apta
+          Jornada electoral
         </p>
         <h1 className={`${styles.headingEnter} mt-3 font-heading text-4xl font-bold leading-tight tracking-tight text-[var(--brand-ink)] text-balance sm:text-6xl lg:text-7xl`}>
-          {LISTA_APTA.nombre}
+          Padrón electoral
         </h1>
-        <div className={`${styles.buttonEnter} mt-8 overflow-hidden rounded-2xl border border-brand-border bg-white p-2 shadow-lg`}>
-          <Image
-            src={LISTA_APTA.logo}
-            alt={`Logo de ${LISTA_APTA.nombre}`}
-            width={220}
-            height={220}
-            className="size-40 object-contain sm:size-52"
-            priority
-          />
+        <p className="mt-4 max-w-md text-brand-muted-fg">Encuentra tu mesa de votación y consulta quiénes la integran.</p>
+        <div className="mt-7 flex flex-wrap justify-center gap-3">
+          <Link href="/padron" className={buttonVariants({ size: "lg" })}><Search /> Consultar mi mesa</Link>
+          <Link href="/padron#miembros" className={buttonVariants({ variant: "outline", size: "lg" })}><Users /> Miembros de mesa</Link>
         </div>
-        <ReleaseAction />
       </div>
       <div data-binary-slot="year" className={styles.binaryYear} aria-hidden="true" />
     </section>

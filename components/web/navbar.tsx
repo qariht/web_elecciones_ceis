@@ -155,14 +155,14 @@ export function Navbar() {
           {/* ACCIONES Y BOTÓN HAMBURGUESA */}
           <div className="flex items-center gap-3">
             <Link
-                href="/lista-apta"
+                href="/padron"
                 className={cn(
                   buttonVariants({ size: "sm" }),
                   "hidden sm:inline-flex bg-[#101F36] hover:bg-[#182c4d] text-white font-medium shadow-sm transition-transform active:scale-95 gap-2"
                 )}
               >
                 <ListChecks className="size-4 text-[#C6A24B]" />
-                <span>Ver lista apta</span>
+                <span>Consultar mi mesa</span>
               </Link>
             {/* Disparador Menú Móvil */}
             <button
@@ -329,7 +329,7 @@ export function Navbar() {
               {/* Footer Drawer con CTA */}
               <div className="border-t border-brand-border p-4 bg-secondary space-y-3">
                 <Link
-                    href="/lista-apta"
+                    href="/padron"
                     onClick={() => setMobileOpen(false)}
                     className={cn(
                       buttonVariants(),
@@ -337,7 +337,7 @@ export function Navbar() {
                     )}
                   >
                     <ListChecks className="size-4 text-[#C6A24B]" />
-                    <span>Ver integrantes</span>
+                    <span>Consultar mi mesa</span>
                   </Link>
                 <div className="flex items-center justify-center gap-1.5 text-[11px] text-brand-muted-fg font-mono">
                   <ShieldCheck className="size-3.5 text-[#C6A24B]" />
