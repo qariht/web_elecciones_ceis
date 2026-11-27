@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Temporizador · Elecciones CEIS 2027</title>
+<style>
+*{box-sizing:border-box}
+:root{--navy:#101f36;--gold:#c6a24b;--paper:#f5f7fa;color:var(--navy);font-family:"Google Sans",system-ui,sans-serif}
+body{margin:0;background:var(--paper)}
+header{display:flex;align-items:center;gap:12px;padding:14px clamp(16px,6vw,100px);background:white;border-bottom:1px solid #dce2ea}
+header svg{width:46px;height:46px} header strong,header small{display:block}header small{color:#566275;margin-top:2px}
+main{width:min(100% - 32px,980px);margin:clamp(24px,5vh,64px) auto}
+h1{font-size:clamp(25px,4vw,38px);letter-spacing:-.045em;margin:0 0 18px}
+.clock{border-radius:24px;background:var(--navy);color:white;text-align:center;padding:clamp(25px,5vh,60px) 12px;overflow:hidden;position:relative}
+#status{color:#faeec6;font-weight:600;font-size:clamp(16px,2vw,22px)}
+#digits{font-size:clamp(64px,18vw,192px);line-height:1.12;letter-spacing:-.055em;font-weight:650;font-variant-numeric:tabular-nums}
+.unit{color:#cbd4e2;font-size:14px}
+.track{width:min(60%,420px);height:5px;background:#38465a;margin:22px auto 0;border-radius:8px;overflow:hidden}
+#bar{height:100%;background:var(--gold);transform-origin:left}
+.controls{background:white;border:1px solid #dce2ea;border-radius:20px;margin-top:14px;padding:20px;display:flex;align-items:end;gap:12px;flex-wrap:wrap}
+label{display:block;font-weight:600;margin-bottom:6px;font-size:14px}
+input,button{font:inherit;border:1px solid #cbd2db;border-radius:10px;background:white;color:inherit;min-height:46px;padding:0 16px}
+input{width:98px}button{cursor:pointer;font-weight:600}button:hover{background:#f5f7fa}
+button:focus-visible,input:focus-visible{outline:3px solid #946f20;outline-offset:3px}
+#toggle{background:var(--navy);color:white;min-width:122px}
+#preview{margin-left:auto}
+#warning{color:#714b13;font-size:14px}
+@media(max-width:610px){.controls{display:grid;grid-template-columns:1fr 1fr;align-items:end}.controls>*{min-width:0}input,#preview{width:100%}#toggle{min-width:0}button{padding:0 8px}}
+</style>
+</head>
+<body>
+<header><svg xmlns="http://www.w3.org/2000/svg" width="256pt" height="256pt" viewBox="0 0 256 256" role="img" aria-label="Comité Electoral de la EPIS">
+  <path fill-rule="evenodd" fill="#FFFFFF" d="M58 244H198C223.429688 244 244 223.429688 244 198V58C244 32.570312 223.429688 12 198 12H58C32.570312 12 12 32.570312 12 58V198C12 223.429688 32.570312 244 58 244Z"/>
+  <path fill="none" stroke="#101F36" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" d="M96 146H80C70 146 66 140 66 131V82C66 73 71 68 81 68H175C185 68 190 73 190 82V131C190 140 186 146 176 146H160" transform="matrix(1 0 0 -1 0 256)"/>
+  <path fill="none" stroke="#101F36" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" d="M100 136H156" transform="matrix(1 0 0 -1 0 256)"/>
+  <path fill="none" stroke="#C6A24B" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" d="M108 148H148C152.421875 148 156 151.578125 156 156V204C156 208.421875 152.421875 212 148 212H108C103.578125 212 100 208.421875 100 204V156C100 151.578125 103.578125 148 108 148Z" transform="matrix(1 0 0 -1 0 256)"/>
+  <path fill="none" stroke="#C6A24B" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" d="M112 180L124 168L144 191" transform="matrix(1 0 0 -1 0 256)"/>
+  <path fill="none" stroke="#101F36" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" d="M104 91L128 113L152 91" transform="matrix(1 0 0 -1 0 256)"/>
+  <circle cx="104" cy="165" r="5.5" fill="#101F36"/>
+  <circle cx="128" cy="143" r="5.5" fill="#101F36"/>
+  <circle cx="152" cy="165" r="5.5" fill="#101F36"/>
+</svg> <div><strong>Comité Electoral</strong><small>Elecciones CEIS 2027 · UNSCH</small></div></header>
+<main>
+<h1>Temporizador</h1>
+<section class="clock" aria-label="Cuenta regresiva">
+<div id="status" role="status">Listo para iniciar</div>
+<div id="digits" role="timer" aria-label="Tiempo restante">05:00</div>
+<div class="unit">Minutos : segundos</div>
+<div class="track" aria-hidden="true"><div id="bar"></div></div>
+</section>
+<div class="controls">
+<div><label for="minutes">Minutos</label><input id="minutes" type="number" inputmode="numeric" min="1" max="999" step="1" value="5" required></div>
+<button id="toggle">Iniciar</button><button id="reset">Reiniciar</button>
+<button id="preview">Probar tono</button>
+</div>
+<p id="warning" role="status"></p>
+</main>
+<script>
+const el = id => document.getElementById(id);
+const minutes = el('minutes');
+let state = 'ready', duration = 300000, remaining = duration, deadline = 0, interval, audio;
+function draw() {
+  const seconds = Math.ceil(remaining / 1000);
+  const pad = n => String(n).padStart(2, '0');
+  el('digits').textContent = pad(Math.floor(seconds / 60)) + ':' + pad(seconds % 60);
+  el('bar').style.transform = 'scaleX(' + (remaining / duration) + ')';
+}
+function setState(next) {
+  state = next;
+  minutes.disabled = next === 'running' || next === 'paused';
+  el('status').textContent = {ready:'Listo para iniciar', running:'Tiempo restante', paused:'En pausa', done:'Tiempo cumplido'}[next];
+  el('toggle').textContent = {ready:'Iniciar', running:'Pausar', paused:'Continuar', done:'Volver a iniciar'}[next];
+}
+async function enableAudio() {
+  try {
+    audio ||= new (window.AudioContext || window.webkitAudioContext)();
+    if (audio.state !== 'running') await audio.resume();
+    el('warning').textContent = '';
+  } catch {
+    el('warning').textContent = 'El audio no está disponible. El reloj indicará el final en pantalla.';
+  }
+}
+function chime() {
+  if (audio?.state !== 'running') return;
+  [392,493.88,587.33].forEach((frequency,i) => {
+    const start = audio.currentTime + i * 0.28;
+    const note = audio.createOscillator(), volume = audio.createGain();
+    note.frequency.value = frequency;
+    volume.gain.setValueAtTime(0.0001,start);
+    volume.gain.exponentialRampToValueAtTime(0.09,start + 0.07);
+    volume.gain.exponentialRampToValueAtTime(0.0001,start + 1.6);
+    note.connect(volume).connect(audio.destination);
+    note.start(start); note.stop(start + 1.65);
+    note.onended = () => {note.disconnect(); volume.disconnect();};
+  });
+}
+function tick() {
+  if (state !== 'running') return;
+  remaining = Math.max(0, deadline - Date.now());
+  draw();
+  if (!remaining) {clearInterval(interval); setState('done'); chime();}
+}
+function configure() {
+  if (!minutes.validity.valid) return false;
+  remaining = duration = minutes.valueAsNumber * 60000;
+  setState('ready'); draw(); return true;
+}
+minutes.oninput = () => {
+  if (!configure()) {el('digits').textContent = '––:––'; el('bar').style.transform = 'scaleX(0)'; setState('ready');}
+};
+el('toggle').onclick = () => {
+  if (state === 'running') {
+    tick(); clearInterval(interval);
+    if (state === 'running') setState('paused');
+    return;
+  }
+  if (state !== 'paused' && !configure()) {minutes.reportValidity(); return;}
+  void enableAudio();
+  deadline = Date.now() + remaining;
+  setState('running'); interval = setInterval(tick, 100);
+};
+el('reset').onclick = () => {
+  clearInterval(interval);
+  if (!minutes.validity.valid) minutes.value = String(duration / 60000);
+  configure();
+};
+el('preview').onclick = async () => {await enableAudio(); chime();};
+document.addEventListener('visibilitychange',tick);
+</script>
+</body>
+</html>
