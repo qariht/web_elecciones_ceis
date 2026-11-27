@@ -61,12 +61,24 @@ button:focus-visible,input:focus-visible{outline:3px solid #946f20;outline-offse
 <h1>Temporizador</h1>
 <section class="clock" aria-label="Cuenta regresiva">
 <div id="status" role="status">Listo para iniciar</div>
-<div id="digits" role="timer" aria-label="Tiempo restante">05:00</div>
+<div id="digits" role="timer" aria-label="Tiempo restante: 05:00">
+<svg viewBox="0 0 640 160" aria-hidden="true" style="display:block;width:100%;height:1.15em">
+  <defs>
+    <pattern id="bits" width="7" height="10" patternUnits="userSpaceOnUse">
+      <g font-family="monospace" font-size="6" font-weight="700" letter-spacing="0">
+        <text x="0" y="5" fill="#edf2fa">0</text><text x="3.5" y="5" fill="#dfc478">1</text>
+        <text x="0" y="10" fill="#dfc478">1</text><text x="3.5" y="10" fill="#edf2fa">0</text>
+      </g>
+    </pattern>
+  </defs>
+  <text id="timeText" x="320" y="135" text-anchor="middle" font-family="Arial,sans-serif" font-size="166" font-weight="900" letter-spacing="-4" fill="url(#bits)">05:00</text>
+</svg></div>
 <div class="unit">Minutos : segundos</div>
 <div class="track" aria-hidden="true"><div id="bar"></div></div>
 </section>
 <div class="controls">
-<div><label for="minutes">Minutos</label><input id="minutes" type="number" inputmode="numeric" min="1" max="999" step="1" value="5" required></div>
+<div><label for="minutes">Minutos</label><input id="minutes" type="number" inputmode="numeric" min="0" max="999" step="1" value="5" required></div>
+<div><label for="seconds">Segundos</label><input id="seconds" type="number" inputmode="numeric" min="0" max="59" step="1" value="0" required></div>
 <button id="toggle">Iniciar</button><button id="reset">Reiniciar</button>
 <button id="preview">Probar tono</button><button id="present" aria-pressed="false">Presentar</button>
 </div>
@@ -76,15 +88,22 @@ button:focus-visible,input:focus-visible{outline:3px solid #946f20;outline-offse
 const el = id => document.getElementById(id);
 const minutes = el('minutes');
 let state = 'ready', duration = 300000, remaining = duration, deadline = 0, interval, audio;
+const secondsInput = el('seconds');
+function displayTime(value) {
+  if (el('timeText').textContent === value) return;
+  el('timeText').textContent = value;
+  el('digits').setAttribute('aria-label', 'Tiempo restante: ' + value);
+}
 function draw() {
   const seconds = Math.ceil(remaining / 1000);
   const pad = n => String(n).padStart(2, '0');
-  el('digits').textContent = pad(Math.floor(seconds / 60)) + ':' + pad(seconds % 60);
+  displayTime(pad(Math.floor(seconds / 60)) + ':' + pad(seconds % 60));
   el('bar').style.transform = 'scaleX(' + (remaining / duration) + ')';
 }
 function setState(next) {
   state = next;
   minutes.disabled = next === 'running' || next === 'paused';
+  secondsInput.disabled = minutes.disabled;
   el('status').textContent = {ready:'Listo para iniciar', running:'Tiempo restante', paused:'En pausa', done:'Tiempo cumplido'}[next];
   el('toggle').textContent = {ready:'Iniciar', running:'Pausar', paused:'Continuar', done:'Volver a iniciar'}[next];
 }
@@ -128,12 +147,14 @@ function tick() {
   if (!remaining) {clearInterval(interval); setState('done'); chime();}
 }
 function configure() {
-  if (!minutes.validity.valid) return false;
-  remaining = duration = minutes.valueAsNumber * 60000;
+  secondsInput.setCustomValidity(minutes.valueAsNumber === 0 && secondsInput.valueAsNumber === 0
+    ? 'Configura al menos un segundo.' : '');
+  if (!minutes.validity.valid || !secondsInput.validity.valid) return false;
+  remaining = duration = (minutes.valueAsNumber * 60 + secondsInput.valueAsNumber) * 1000;
   setState('ready'); draw(); return true;
 }
-minutes.oninput = () => {
-  if (!configure()) {el('digits').textContent = '––:––'; el('bar').style.transform = 'scaleX(0)'; setState('ready');}
+minutes.oninput = secondsInput.oninput = () => {
+  if (!configure()) {displayTime('––:––'); el('bar').style.transform = 'scaleX(0)'; setState('ready');}
 };
 el('toggle').onclick = () => {
   if (state === 'running') {
@@ -141,7 +162,7 @@ el('toggle').onclick = () => {
     if (state === 'running') setState('paused');
     return;
   }
-  if (state !== 'paused' && !configure()) {minutes.reportValidity(); return;}
+  if (state !== 'paused' && !configure()) {minutes.reportValidity() && secondsInput.reportValidity(); return;}
   stopChime();
   void enableAudio();
   deadline = Date.now() + remaining;
@@ -150,7 +171,8 @@ el('toggle').onclick = () => {
 el('reset').onclick = () => {
   stopChime();
   clearInterval(interval);
-  if (!minutes.validity.valid) minutes.value = String(duration / 60000);
+  minutes.value = String(Math.floor(duration / 60000));
+  secondsInput.value = String((duration / 1000) % 60);
   configure();
 };
 el('preview').onclick = async () => {await enableAudio(); chime();};
@@ -161,7 +183,7 @@ function showPresentation(active) {
 }
 el('present').onclick = async () => {
   const active = !document.body.classList.contains('presenting');
-  if (active && !minutes.reportValidity()) return;
+  if (active && !(minutes.reportValidity() && secondsInput.reportValidity())) return;
   showPresentation(active);
   try {
     if (active) await document.documentElement.requestFullscreen?.();
