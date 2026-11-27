@@ -28,6 +28,21 @@ button:focus-visible,input:focus-visible{outline:3px solid #946f20;outline-offse
 #preview{margin-left:auto}
 #warning{color:#714b13;font-size:14px}
 @media(max-width:610px){.controls{display:grid;grid-template-columns:1fr 1fr;align-items:end}.controls>*{min-width:0}input,#preview{width:100%}#toggle{min-width:0}button{padding:0 8px}}
+
+.presenting{min-height:100svh;background:var(--navy);color:white;display:flex;flex-direction:column}
+.presenting header{background:transparent;border:0;padding:1.8vmin 4vw}
+.presenting header small{color:#cbd4e2}
+.presenting main{width:100%;margin:auto;text-align:center}
+.presenting h1,.presenting .controls>div,.presenting #preview,.presenting #reset{display:none}
+.presenting .clock{padding:2vh 1vw}
+.presenting #digits{font-size:min(27vw,47vh);line-height:1.08}
+.presenting #status{font-size:clamp(20px,4vmin,54px)}
+.presenting .unit{font-size:clamp(14px,2.5vmin,30px)}
+.presenting .track{width:78%;height:.9vmin}
+.presenting .controls{display:flex;justify-content:center;background:transparent;border:0;padding:8px;margin:1vh 0}
+.presenting .controls button{background:transparent;color:#dee5ef;border-color:#64748b}
+.presenting #warning{color:#faeec6}
+#warning:empty{display:none}
 </style>
 </head>
 <body>
@@ -53,7 +68,7 @@ button:focus-visible,input:focus-visible{outline:3px solid #946f20;outline-offse
 <div class="controls">
 <div><label for="minutes">Minutos</label><input id="minutes" type="number" inputmode="numeric" min="1" max="999" step="1" value="5" required></div>
 <button id="toggle">Iniciar</button><button id="reset">Reiniciar</button>
-<button id="preview">Probar tono</button>
+<button id="preview">Probar tono</button><button id="present" aria-pressed="false">Presentar</button>
 </div>
 <p id="warning" role="status"></p>
 </main>
@@ -82,10 +97,18 @@ async function enableAudio() {
     el('warning').textContent = 'El audio no está disponible. El reloj indicará el final en pantalla.';
   }
 }
+const sounding = new Set();
+function stopChime() {
+  for (const note of sounding) note.stop();
+  sounding.clear();
+}
 function chime() {
+  stopChime();
   if (audio?.state !== 'running') return;
-  [392,493.88,587.33].forEach((frequency,i) => {
-    const start = audio.currentTime + i * 0.28;
+  const origin = audio.currentTime;
+  for (let repetition = 0; repetition < 3; repetition++) {
+    [392,493.88,587.33].forEach((frequency,i) => {
+    const start = origin + repetition * 2.5 + i * 0.28;
     const note = audio.createOscillator(), volume = audio.createGain();
     note.frequency.value = frequency;
     volume.gain.setValueAtTime(0.0001,start);
@@ -93,8 +116,10 @@ function chime() {
     volume.gain.exponentialRampToValueAtTime(0.0001,start + 1.6);
     note.connect(volume).connect(audio.destination);
     note.start(start); note.stop(start + 1.65);
-    note.onended = () => {note.disconnect(); volume.disconnect();};
-  });
+    sounding.add(note);
+    note.onended = () => {sounding.delete(note); note.disconnect(); volume.disconnect();};
+    });
+  }
 }
 function tick() {
   if (state !== 'running') return;
@@ -117,16 +142,36 @@ el('toggle').onclick = () => {
     return;
   }
   if (state !== 'paused' && !configure()) {minutes.reportValidity(); return;}
+  stopChime();
   void enableAudio();
   deadline = Date.now() + remaining;
   setState('running'); interval = setInterval(tick, 100);
 };
 el('reset').onclick = () => {
+  stopChime();
   clearInterval(interval);
   if (!minutes.validity.valid) minutes.value = String(duration / 60000);
   configure();
 };
 el('preview').onclick = async () => {await enableAudio(); chime();};
+function showPresentation(active) {
+  document.body.classList.toggle('presenting', active);
+  el('present').textContent = active ? 'Salir de presentación' : 'Presentar';
+  el('present').setAttribute('aria-pressed', String(active));
+}
+el('present').onclick = async () => {
+  const active = !document.body.classList.contains('presenting');
+  if (active && !minutes.reportValidity()) return;
+  showPresentation(active);
+  try {
+    if (active) await document.documentElement.requestFullscreen?.();
+    else if (document.fullscreenElement) await document.exitFullscreen();
+  } catch { /* The presentation layout also works inside a shared tab. */ }
+};
+document.addEventListener('fullscreenchange', () => showPresentation(Boolean(document.fullscreenElement)));
+document.addEventListener('keydown', event => {
+  if (event.key === 'Escape' && !document.fullscreenElement) showPresentation(false);
+});
 document.addEventListener('visibilitychange',tick);
 </script>
 </body>
