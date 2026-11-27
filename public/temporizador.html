@@ -61,18 +61,7 @@ button:focus-visible,input:focus-visible{outline:3px solid #946f20;outline-offse
 <h1>Temporizador</h1>
 <section class="clock" aria-label="Cuenta regresiva">
 <div id="status" role="status">Listo para iniciar</div>
-<div id="digits" role="timer" aria-label="Tiempo restante: 05:00">
-<svg viewBox="0 0 640 160" aria-hidden="true" style="display:block;width:100%;height:1.15em">
-  <defs>
-    <pattern id="bits" width="7" height="10" patternUnits="userSpaceOnUse">
-      <g font-family="monospace" font-size="6" font-weight="700" letter-spacing="0">
-        <text x="0" y="5" fill="#edf2fa">0</text><text x="3.5" y="5" fill="#dfc478">1</text>
-        <text x="0" y="10" fill="#dfc478">1</text><text x="3.5" y="10" fill="#edf2fa">0</text>
-      </g>
-    </pattern>
-  </defs>
-  <text id="timeText" x="320" y="135" text-anchor="middle" font-family="Arial,sans-serif" font-size="166" font-weight="900" letter-spacing="-4" fill="url(#bits)">05:00</text>
-</svg></div>
+<div id="digits" role="timer" aria-label="Tiempo restante">05:00</div>
 <div class="unit">Minutos : segundos</div>
 <div class="track" aria-hidden="true"><div id="bar"></div></div>
 </section>
@@ -89,15 +78,10 @@ const el = id => document.getElementById(id);
 const minutes = el('minutes');
 let state = 'ready', duration = 300000, remaining = duration, deadline = 0, interval, audio;
 const secondsInput = el('seconds');
-function displayTime(value) {
-  if (el('timeText').textContent === value) return;
-  el('timeText').textContent = value;
-  el('digits').setAttribute('aria-label', 'Tiempo restante: ' + value);
-}
 function draw() {
   const seconds = Math.ceil(remaining / 1000);
   const pad = n => String(n).padStart(2, '0');
-  displayTime(pad(Math.floor(seconds / 60)) + ':' + pad(seconds % 60));
+  el('digits').textContent = pad(Math.floor(seconds / 60)) + ':' + pad(seconds % 60);
   el('bar').style.transform = 'scaleX(' + (remaining / duration) + ')';
 }
 function setState(next) {
@@ -154,7 +138,7 @@ function configure() {
   setState('ready'); draw(); return true;
 }
 minutes.oninput = secondsInput.oninput = () => {
-  if (!configure()) {displayTime('––:––'); el('bar').style.transform = 'scaleX(0)'; setState('ready');}
+  if (!configure()) {el('digits').textContent = '––:––'; el('bar').style.transform = 'scaleX(0)'; setState('ready');}
 };
 el('toggle').onclick = () => {
   if (state === 'running') {
