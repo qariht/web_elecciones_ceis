@@ -29,13 +29,13 @@ button:focus-visible,input:focus-visible{outline:3px solid #946f20;outline-offse
 #warning{color:#714b13;font-size:14px}
 @media(max-width:610px){.controls{display:grid;grid-template-columns:1fr 1fr;align-items:end}.controls>*{min-width:0}input,#preview{width:100%}#toggle{min-width:0}button{padding:0 8px}}
 
-.presenting{min-height:100svh;background:var(--navy);color:white;display:flex;flex-direction:column}
+.presenting{min-height:100dvh;background:var(--navy);color:white;display:flex;flex-direction:column}
 .presenting header{background:transparent;border:0;padding:1.8vmin 4vw}
 .presenting header small{color:#cbd4e2}
 .presenting main{width:100%;margin:auto;text-align:center}
 .presenting h1,.presenting .controls>div,.presenting #preview,.presenting #reset{display:none}
 .presenting .clock{padding:2vh 1vw}
-.presenting #digits{font-size:min(27vw,47vh);line-height:1.08}
+.presenting #digits{font-size:min(27vw,47dvh);line-height:1.08}
 .presenting #status{font-size:clamp(20px,4vmin,54px)}
 .presenting .unit{font-size:clamp(14px,2.5vmin,30px)}
 .presenting .track{width:78%;height:.9vmin}
@@ -165,18 +165,13 @@ function showPresentation(active) {
   el('present').textContent = active ? 'Salir de presentación' : 'Presentar';
   el('present').setAttribute('aria-pressed', String(active));
 }
-el('present').onclick = async () => {
+el('present').onclick = () => {
   const active = !document.body.classList.contains('presenting');
   if (active && !(minutes.reportValidity() && secondsInput.reportValidity())) return;
   showPresentation(active);
-  try {
-    if (active) await document.documentElement.requestFullscreen?.();
-    else if (document.fullscreenElement) await document.exitFullscreen();
-  } catch { /* The presentation layout also works inside a shared tab. */ }
 };
-document.addEventListener('fullscreenchange', () => showPresentation(Boolean(document.fullscreenElement)));
 document.addEventListener('keydown', event => {
-  if (event.key === 'Escape' && !document.fullscreenElement) showPresentation(false);
+  if (event.key === 'Escape') showPresentation(false);
 });
 document.addEventListener('visibilitychange',tick);
 </script>
